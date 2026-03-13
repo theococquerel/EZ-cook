@@ -9,17 +9,27 @@
 <body>
     <header id="mainHeader">
         <h1 id="mainTitle">EZ'Cook</h1>
+
         <div id="formConnect">
-            <label>Identifiant</label>      
-            <input id="login" type="text"><br>
-            <label>Mot de passe</label>
-            <input id="password" type="password"><br>
-            <button id="connection">Se connecter</button>
+
+            Mode administrateur<br>
+            <form method="post", id="formCo">
+
+                <label>Identifiant</label>      
+                <input id="login" type="text" name="login"><br>
+
+                <label>Mot de passe</label>
+                <input id="password" type="password" name="password"><br>
+
+                <button id="connection" type="submit">Se connecter</button>
+                <button id="reset" type="reset">Reset</button>
+            </form>
+
         </div>
     </header>
+    <br><br><br><br><br><br><br><br><br>
     <p>Bienvenue sur le (meilleur) site de cuisine de tous les temps !</p>
-    <br>
-    <p> Test pour voir si Yann le voit</p>
+
 
     <p></p>
 
@@ -30,11 +40,26 @@
     <script>
         document.addEventListener('DOMContentLoaded', function(){
 
-            let identifiant = document.getElementById("login");
-            identifiant.innerHTML = "Identifiant";
+            let form = document.getElementById("formCo");
 
+            form.addEventListener('submit', function(event){
+                event.preventDefault();
 
+                if(form.login.value == ""){
+                    window.alert("Erreur : l'identifiant ne peut pas être vide !");
+                } else if(form.password.value == ""){
+                    window.alert("Erreur : le mot de passe ne peut pas être vide !")
+                }
+                else{
+                    if(form.login.value == "admin2026" && form.password.value == "azertyuiop"){
+                        window.alert("Connexion réussie : entrée en mode administrateur.")
+                    } else window.alert("Identifiant ou mot de passe incorrect.");
+                }
+            })
 
+            form.addEventListener('reset', function(){
+
+            })
 
 
 
