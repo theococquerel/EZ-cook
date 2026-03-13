@@ -11,13 +11,12 @@ class Template
             <title>test</title>
         </head>
         <body>
-            <?php include "header.php" ?>
+            <?php include "index.html" ?>
 
             <div id="injected-content"> 
                 <?php echo $content?>
             </div>
 
-            <?php include "footer.html" ?>
 
         </body>
         </html>
