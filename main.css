@@ -1,0 +1,36 @@
+#mainHeader, #mainFooter{
+    background-color: rgb(241, 78, 60);
+    text-align: center;
+    color: white;
+    margin:0%;
+}
+
+#mainTitle{
+    align-items: center;
+}
+
+#formConnect{
+    text-align: right;
+    align-items: center;
+}
+
+#mainHeader{
+   
+    padding-top: 3px;
+    padding-bottom: 2px;
+}
+
+#connection{
+    align-self: center;
+    background-color: yellow;
+}
+
+body{
+    font-family: 'Lucida Sans';
+}
+
+#mainFooter{
+    position: fixed;
+    bottom: 0;
+}
+
