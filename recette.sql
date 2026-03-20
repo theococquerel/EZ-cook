@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 20 mars 2026 à 13:28
+-- Généré le : ven. 20 mars 2026 à 13:32
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `bddrecettes`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ingredient`
+--
+
+CREATE TABLE `ingredient` (
+  `idIng` int(10) NOT NULL,
+  `nomIng` varchar(255) DEFAULT NULL,
+  `photoIng` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `ingredient`
+--
+
+INSERT INTO `ingredient` (`idIng`, `nomIng`, `photoIng`) VALUES
+(1, 'farine', 'farine.jpg'),
+(2, 'oeuf', 'oeuf.jpg'),
+(3, 'lait', 'lait.jpg'),
+(4, 'sucre', 'sucre.jpg');
 
 -- --------------------------------------------------------
 
@@ -43,15 +65,45 @@ CREATE TABLE `recette` (
 INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
 (1, 'Crêpes', '[\"farine\", \"oeuf\", \"lait\", \"sucre\"]', 'Une recette originaire de bretagne', 'crepes.jpg', '[\"dessert\", \"facile\"]');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tag`
+--
+
+CREATE TABLE `tag` (
+  `nomTag` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Une table pour tout les tag (les themes)';
+
+--
+-- Déchargement des données de la table `tag`
+--
+
+INSERT INTO `tag` (`nomTag`) VALUES
+('dessert'),
+('facile');
+
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `ingredient`
+--
+ALTER TABLE `ingredient`
+  ADD PRIMARY KEY (`idIng`);
 
 --
 -- Index pour la table `recette`
 --
 ALTER TABLE `recette`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `tag`
+--
+ALTER TABLE `tag`
+  ADD PRIMARY KEY (`nomTag`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
