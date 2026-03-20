@@ -1,4 +1,5 @@
-<?php
+<?php require_once __DIR__.DIRECTORY_SEPARATOR."Template.php";
+session_start();
 
 // Informations sur la BDD et le serveur qui la contient
 $db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
@@ -35,11 +36,14 @@ $statement->execute() or die(var_dump($statement->errorInfo())) ;
 
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+// ON COMMENCE LE HTML
+
 <h3>Liste des ingrédients</h3>
 <ul>
 <!--Affichage du champ 'nomIng' des objets récupérés -->
 <?php foreach ($result as $ingre): ?>
-    <li><?= $ingre['idIng'] ?> - <?= $ingre['nomIng'] ?></li>
+    <li><?= $ingre['idIng'] ?> - <?= $ingre['nomIng'] ?> - <?= $ingre['photoIng'] ?></li>
 <?php endforeach;?>
 </ul>
 
@@ -51,10 +55,16 @@ $statement->execute() or die(var_dump($statement->errorInfo())) ;
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<ul>
+<table id="tableRecettes">
     <?php foreach ($result as $recette): ?>
-        <li><?= $recette['id'] ?> - <?= $recette['titre'] ?></li>
-        <li> <img src="<?= $recette['photo'] ?>" alt="Photo crepes" width="200px"> </li>
-        <li> <?= $recette['description'] ?> </li>
+        <td>
+            <ul class="recettes-list">
+                <li><?= $recette['id'] ?> - <?= $recette['titre'] ?></li>
+                <li> <img src="<?= $recette['photo'] ?>" alt="Photo crepes" width="200px"> </li>
+                <li> <?= $recette['description'] ?> </li>
+            </ul>
+        </td>
     <?php endforeach;?>
-</ul>
+</table>
+
+<?php $content=ob_get_clean(); Template::render($content) ?>
