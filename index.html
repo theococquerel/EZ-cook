@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title id="pageTitle"></title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
 
         <div id="formConnect">
 
-            Mode administrateur<br>
+            <div id="adminTitle">Connexion</div>
             <form method="post", id="formCo">
 
                 <label>Identifiant</label>      
@@ -21,44 +21,90 @@
                 <label>Mot de passe</label>
                 <input id="password" type="password" name="password"><br>
 
+                <div id="logResult"></div>
+
                 <button id="connection" type="submit">Se connecter</button>
                 <button id="reset" type="reset">Reset</button>
             </form>
 
         </div>
     </header>
-    <br><br><br><br><br><br><br><br><br>
-    <p>Bienvenue sur le (meilleur) site de cuisine de tous les temps !</p>
+    <br><br><br><br><br><br>
+    <main id="mainContent">
+        <p>Bienvenue sur le (meilleur) site de cuisine de tous les temps !</p>
 
+        <div id="formResearch">
+        <form method="post", id="formCo">
+            <input id="research" type="text" name="research">
+            <button id="resButton">Rechercher</button>
+        </form>
+        </div>
+    
+        <p></p>
 
-    <p></p>
-
+    </main>
     <footer id="mainFooter">
         Sources : 
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function(){
+            let pageTitle = document.getElementById("pageTitle");
+            pageTitle.innerText = "EZ'Cook";
 
             let form = document.getElementById("formCo");
 
+            // récupération et vérification de la paire login/MDP
             form.addEventListener('submit', function(event){
                 event.preventDefault();
+                let result = document.getElementById("logResult");
+
 
                 if(form.login.value == ""){
-                    window.alert("Erreur : l'identifiant ne peut pas être vide !");
+                    result.style.color = "yellow";
+                    result.innerText = "L'identifiant ne peut pas être vide !";
                 } else if(form.password.value == ""){
-                    window.alert("Erreur : le mot de passe ne peut pas être vide !")
+                    result.style.color = "yellow";
+                    result.innerText = "Le mot de passe ne peut pas être vide !";
                 }
                 else{
-                    if(form.login.value == "admin2026" && form.password.value == "azertyuiop"){
-                        window.alert("Connexion réussie : entrée en mode administrateur.")
-                    } else window.alert("Identifiant ou mot de passe incorrect.");
+                    if(form.login.value == "admin2026" && form.password.value == "projet3"){
+                        result.style.color = "lightgreen";
+                        pageTitle.innerText += " (administrateur)";
+                        result.innerText = "Connexion réussie : entrée en mode administrateur.";
+                        window.setTimeout(function(){
+                            result.innerText = "";
+                            let admin = document.getElementById("adminTitle");
+                            admin.innerText = "Mode administrateur";
+                            form.password.value = "";
+                            form.login.value = "";
+                        }, 5000)
+                        
+
+                    } else{
+                        result.style.color = "yellow";
+                        result.innerText = "Identifiant ou mot de passe incorrect.";
+                    } 
                 }
             })
 
             form.addEventListener('reset', function(){
+                let result = document.getElementById("logResult");
+                result.innerText = ""
+            })
 
+
+            // gestion de la barre de recherche
+            let resButton = document.getElementById("resButton");
+            let initialColor = resButton.style.color;
+            let initialTextColor = resButton.innerText.style.color;
+
+            resButton.addEventListener("mousemove", function(){
+                this.style.background = "blue";
+            })
+            resButton.addEventListener("mouseout", function(){
+                this.style.background = initialColor;
+               // this.innerText.style.color = initialTextColor;
             })
 
 
