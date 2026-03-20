@@ -1,5 +1,4 @@
 <?php require_once __DIR__.DIRECTORY_SEPARATOR."Template.php";
-session_start();
 
 // Informations sur la BDD et le serveur qui la contient
 $db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
@@ -26,7 +25,7 @@ catch (\Exception $ex){
 }
 
 // Si pas d'erreur : poursuite de l'exécution
-echo "Connexion OK<br>" ;
+// echo "Connexion OK<br>" ;
 
 // ON COMMENCE A FAIRE DES REQUETES SQL
 
@@ -35,10 +34,9 @@ $statement = $pdo->prepare($sqlAllIng) ;
 $statement->execute() or die(var_dump($statement->errorInfo())) ;
 
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-?>
-
 // ON COMMENCE LE HTML
-
+?>
+<br><br><br><br>
 <h3>Liste des ingrédients</h3>
 <ul>
 <!--Affichage du champ 'nomIng' des objets récupérés -->

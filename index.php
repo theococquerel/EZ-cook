@@ -1,8 +1,7 @@
 <?php require_once __DIR__.DIRECTORY_SEPARATOR."Template.php";
-session_start();
 ob_start()?>
 
-<div id=LogResult >
+<div id="LogResult">
     <?php
     if (isset($_SESSION['error'])){
         ?><br> <br> <br> <br><?php

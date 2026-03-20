@@ -6,7 +6,9 @@
     <title id="pageTitle"></title>
     <link rel="stylesheet" href="main.css">
 </head>
+<body>
 <?php session_start();?>
+
 <header id="mainHeader">
         <h1 id="mainTitle">EZ'Cook</h1>
         <?php if (!isset($_SESSION['login'])):?>
@@ -35,3 +37,5 @@
         <?php endif;?>
     </header>
     <script src="main.js"></script>
+</body>
+</html>
