@@ -13,7 +13,7 @@
         <div id="formConnect">
 
             <div id="adminTitle">Connexion</div>
-            <form method="post", id="formCo" action="login.php">
+            <form method="post" id="formCo">
 
                 <label>Identifiant</label>      
                 <input id="login" type="text" name="login"><br>
@@ -49,10 +49,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function(){
+            // préparation de la page (mode visiteur)
+            let modeAdministrateurActif = false;
             let pageTitle = document.getElementById("pageTitle");
             pageTitle.innerText = "EZ'Cook";
 
             let form = document.getElementById("formCo");
+
+            // récupération du conteneur du formulaire d'authentification
+            let connect = document.getElementById("formConnect");
+            // sauvegarde du contenu d'origine
+            let connectInit = connect.innerHTML;
+
+
+
 
             // récupération et vérification de la paire login/MDP
             form.addEventListener('submit', function(event){
@@ -77,9 +87,21 @@
                             result.innerText = "";
                             let admin = document.getElementById("adminTitle");
                             admin.innerText = "Mode administrateur";
+                            modeAdministrateurActif = true;
                             form.password.value = "";
                             form.login.value = "";
+                            connect.innerHTML = `
+                            <div id="adminTitle">Mode administrateur</div><br>
+                            <button id="disconnect">Se déconnecter</button>`;
+                             // gestion du cas déconnexion
+                            let disco = document.getElementById("disconnect");
+                            disco.addEventListener('click', function(){
+                                connect.innerHTML = connectInit;
+                                modeAdministrateurActif = false;
+                                pageTitle.innerText = "EZ'Cook";
+                            })
                         }, 5000)
+
                         
 
                     } else{
@@ -94,6 +116,10 @@
                 result.innerText = ""
             })
 
+           
+            
+
+            
 
             // gestion de la barre de recherche
             let resButton = document.getElementById("resButton");
