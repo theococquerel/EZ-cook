@@ -27,8 +27,8 @@ catch (\Exception $ex){
 // Si pas d'erreur : poursuite de l'exécution
 echo "Connexion OK<br>" ;
 
-$sql = "SELECT * FROM Ingredient" ;
-$statement = $pdo->prepare($sql) ;
+$sqlAllIng = "SELECT * FROM Ingredient" ;
+$statement = $pdo->prepare($sqlAllIng) ;
 $statement->execute() or die(var_dump($statement->errorInfo())) ;
 
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -39,4 +39,19 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 <?php foreach ($result as $ingre): ?>
     <li><?= $ingre['idIng'] ?> - <?= $ingre['nomIng'] ?></li>
 <?php endforeach;?>
+</ul>
+
+<h3> Liste des Recettes </h3>
+<?php
+$sqlAllRecettes = "SELECT * FROM Recette" ;
+$statement = $pdo->prepare($sqlAllRecettes) ;
+$statement->execute() or die(var_dump($statement->errorInfo())) ;
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+<ul>
+    <?php foreach ($result as $recette): ?>
+        <li><?= $recette['id'] ?> - <?= $recette['titre'] ?></li>
+        <li> <img src="<?= $recette['photo'] ?>" alt="Photo crepes" width="200px"> </li>
+    <?php endforeach;?>
 </ul>
