@@ -34,7 +34,7 @@
         <p style="font-weight: bolder;">Bienvenue sur le (meilleur) site de cuisine de tous les temps !</p>
 
         <div id="formResearch">
-        <form method="post", id="formCo">
+        <form method="post", id="formRes">
             <input id="research" type="text" name="research">
             <button id="resButton">Rechercher</button>
         </form>
@@ -66,6 +66,7 @@
 
             // récupération et vérification de la paire login/MDP
             form.addEventListener('submit', function(event){
+                event.preventDefault();
                 let result = document.getElementById("logResult");
 
 
@@ -81,7 +82,7 @@
                 else{
                     if(form.login.value == "admin2026" && form.password.value == "projet3"){
                         result.style.color = "lightgreen";
-                        pageTitle.innerText += " (administrateur)";
+                        pageTitle.innerText = "EZ'Cook (administrateur)";
                         result.innerText = "Connexion réussie : entrée en mode administrateur.";
                         window.setTimeout(function(){
                             result.innerText = "";
@@ -93,6 +94,7 @@
                             connect.innerHTML = `
                             <div id="adminTitle">Mode administrateur</div><br>
                             <button id="disconnect">Se déconnecter</button>`;
+
                             // gestion du cas déconnexion
                             let disco = document.getElementById("disconnect");
                             disco.addEventListener('click', function(){
@@ -117,9 +119,7 @@
             })
 
            
-            
-
-            
+                    
 
             // gestion de la barre de recherche
             let resButton = document.getElementById("resButton");
