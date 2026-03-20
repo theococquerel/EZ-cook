@@ -1,42 +1,19 @@
 <?php require_once __DIR__.DIRECTORY_SEPARATOR."Template.php";
+include_once __DIR__.DIRECTORY_SEPARATOR."DataBase.php";
 
-// Informations sur la BDD et le serveur qui la contient
-$db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
-$db_host = "127.0.0.1" ; // Si le serveur MySQL est sur la machine locale
-$db_port = "3306" ; // Port par défaut de MySQL
-
-// Informations d'authentification de votre script PHP
-$db_user = "root" ; // Utilisateur par défaut de MySQL (... à changer)
-$db_pwd = "" ;  // Mot de passe par défaut pour l'utilisateur root (.. à changer !!!)
-
-// Connexion à la BDD
-try{
-    // Agrégation des informations de connexion dans une chaine DSN (Data Source Name)
-    $dsn = 'mysql:dbname=' . $db_name . ';host='. $db_host. ';port=' . $db_port;
-
-    // Connexion et récupération de l'objet connecté
-    $pdo = new PDO($dsn, $db_user, $db_pwd);
-}
-
-// Récupération d'une éventuelle erreur
-catch (\Exception $ex){
-    // Arrêt de l'exécution du script PHP
-    die("Erreur : " . $ex->getMessage()) ;
-}
-
-// Si pas d'erreur : poursuite de l'exécution
-// echo "Connexion OK<br>" ;
+$pdo = DataBase::getConnection();
 
 // ON COMMENCE A FAIRE DES REQUETES SQL
 
-$sqlAllIng = "SELECT * FROM Ingredient" ;
-$statement = $pdo->prepare($sqlAllIng) ;
-$statement->execute() or die(var_dump($statement->errorInfo())) ;
-
-$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+$result = DataBase::chargerIngredients($pdo);
+/*
+echo "<pre>";
+var_dump($result);
+echo "</pre>";
+*/
 // ON COMMENCE LE HTML
 ?>
-<br><br><br><br>
+<br><br>
 <h3>Liste des ingrédients</h3>
 <ul>
 <!--Affichage du champ 'nomIng' des objets récupérés -->
@@ -47,11 +24,13 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 <h3> Liste des Recettes </h3>
 <?php
-$sqlAllRecettes = "SELECT * FROM Recette" ;
-$statement = $pdo->prepare($sqlAllRecettes) ;
-$statement->execute() or die(var_dump($statement->errorInfo())) ;
-$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+$result = DataBase::chargerRecettes($pdo);
+/*
+echo "<pre>";
+var_dump($result);
+echo "</pre>";
+*/
 ?>
 <table id="tableRecettes">
     <?php foreach ($result as $recette): ?>
@@ -66,3 +45,51 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 </table>
 
 <?php $content=ob_get_clean(); Template::render($content) ?>
+
+<?php
+/*
+SqlDECLARE @json NVARCHAR(MAX) = '["pomme", "banane", "orange"]';
+DECLARE @val NVARCHAR(50) = 'banane';
+
+-- Vérifier si la valeur est dans le tableau JSON
+IF EXISTS (
+    SELECT 1
+    FROM OPENJSON(@json) 
+    WHERE value = @val
+)
+    PRINT 'Valeur trouvée';
+ELSE
+    PRINT 'Valeur absente';
+
+Explication :
+
+OPENJSON transforme le tableau JSON en table avec une colonne value.
+EXISTS permet de vérifier la présence de la valeur.
+
+
+2. MySQL (>= 5.7)
+MySQL propose la fonction JSON_CONTAINS pour vérifier si un élément est présent dans un tableau JSON.
+Exemple :
+SqlSET @json = '["pomme", "banane", "orange"]';
+SET @val = '"banane"'; -- Attention : valeur JSON valide (avec guillemets)
+
+SELECT 
+    JSON_CONTAINS(@json, @val) AS est_present;
+
+Résultat :
+
+1 → valeur trouvée
+0 → valeur absente
+
+
+3. PostgreSQL
+PostgreSQL utilise les opérateurs JSON/JSONB (@>) pour vérifier la présence.
+Exemple :
+SqlSELECT '["pomme", "banane", "orange"]'::jsonb @> '["banane"]'::jsonb AS est_present;
+
+
+ Bonnes pratiques :
+
+Toujours stocker les données JSON dans un type natif (JSON ou JSONB) si possible.
+Éviter de parcourir du JSON texte brut dans de grosses tables : privilégier la normalisation ou les index JSON.
+*/ ?>
