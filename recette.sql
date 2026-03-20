@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Structure de la table `ingredient`
 --
-
+drop table if exists `ingredient`;
 CREATE TABLE `ingredient` (
   `idIng` int(10) NOT NULL,
   `nomIng` varchar(255) DEFAULT NULL,
@@ -50,6 +50,7 @@ INSERT INTO `ingredient` (`idIng`, `nomIng`, `photoIng`) VALUES
 -- Structure de la table `recette`
 --
 
+drop table if exists `recette`;
 CREATE TABLE `recette` (
   `id` int(10) UNSIGNED NOT NULL,
   `titre` varchar(255) DEFAULT NULL,
@@ -66,13 +67,14 @@ CREATE TABLE `recette` (
 INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
 (1, 'Crêpes', '[\"farine\", \"oeuf\", \"lait\", \"sucre\"]', 'Une recette originaire de bretagne', 'crepes.jpg', '[\"dessert\", \"facile\"]');
 INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
-(2, 'Pain Perdu', '[\"oeuf\", \"lait\", "\pain\"]', 'Une recette parfaite pour éviter le gachis de pain', 'painperdu.jpg', '[\"dessert\", \"facile\",\"antigaspi"\]');
+(2, 'Pain Perdu', '[\"oeuf\", \"lait\", \"pain\"]', 'Une recette parfaite pour éviter le gachis de pain', 'painperdu.jpg', '[\"dessert\", \"facile\",\"antigaspi\"]');
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `tag`
 --
 
+drop table if exists `tag`;
 CREATE TABLE `tag` (
   `nomTag` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Une table pour tout les tag (les themes)';
