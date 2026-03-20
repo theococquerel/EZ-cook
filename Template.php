@@ -11,11 +11,12 @@ class Template
             <title>EZ'cook</title>
         </head>
         <body>
-            <?php include "index.html" ?>
+            <?php include "header.php" ?>
 
             <div id="injected-content"> 
                 <?php echo $content?>
             </div>
+            <?php include "footer.php" ?>
 
 
         </body>
