@@ -1,4 +1,1 @@
-<?php
-class Tag{
-    private $nom;
-}
+<?php class Tag{ private $nom; } ?>

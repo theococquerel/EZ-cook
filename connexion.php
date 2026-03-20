@@ -26,3 +26,7 @@ catch (\Exception $ex){
 
 // Si pas d'erreur : poursuite de l'exécution
 echo "Connexion OK<br>" ;
+
+$sql = "SELECT * FROM recette";
+$statement = $pdo->prepare($sql) ;
+$statement->execute();

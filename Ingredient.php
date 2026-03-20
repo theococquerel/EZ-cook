@@ -1,5 +1,6 @@
 <?php
-class Ingredient{
-    private $nomIng;
-    private $imageIng;
-}
+    class Ingredient{
+        private $nomIng;
+        private $imageIng;
+    }
+?>
