@@ -14,7 +14,8 @@ if (!empty($_POST)and isset($_POST['login']) and isset($_POST['password'])){
     }
     else if ($_POST['password']==""){
         $_SESSION['error']="Mot de passe non rempli";
-        header("Location:index.php")
+        header("Location:index.php");
+        exit();
     }
     else{
         $_SESSION['error']="Identififiant ou mot de passe incorrect";
