@@ -13,7 +13,7 @@
         <div id="formConnect">
 
             <div id="adminTitle">Connexion</div>
-            <form method="post", id="formCo">
+            <form method="post", id="formCo" action="login.php">
 
                 <label>Identifiant</label>      
                 <input id="login" type="text" name="login"><br>
@@ -56,14 +56,15 @@
 
             // récupération et vérification de la paire login/MDP
             form.addEventListener('submit', function(event){
-                event.preventDefault();
                 let result = document.getElementById("logResult");
 
 
                 if(form.login.value == ""){
+                    event.preventDefault();
                     result.style.color = "yellow";
                     result.innerText = "L'identifiant ne peut pas être vide !";
                 } else if(form.password.value == ""){
+                    event.preventDefault();
                     result.style.color = "yellow";
                     result.innerText = "Le mot de passe ne peut pas être vide !";
                 }
