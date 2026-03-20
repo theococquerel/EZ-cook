@@ -28,5 +28,10 @@
             </form>
 
         </div>
+        <?php else:?>
+            <form action="logout.php">
+                <button id="disconnect">Logout</button>
+            </form>
         <?php endif;?>
     </header>
+    <script src="main.js"></script>

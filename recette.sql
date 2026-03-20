@@ -41,7 +41,7 @@ INSERT INTO `ingredient` (`idIng`, `nomIng`, `photoIng`) VALUES
 (1, 'farine', 'farine.jpg'),
 (2, 'oeuf', 'oeuf.jpg'),
 (3, 'lait', 'lait.jpg'),
-(4, 'sucre', 'sucre.jpg');
+(4, 'sucre', 'sucre.jpg'),
 (5, 'pain', 'pain.jpg');
 
 -- --------------------------------------------------------

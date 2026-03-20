@@ -2,8 +2,14 @@
 
 session_start();
 session_destroy();
+header("Location:index.php"); 
 ob_start()?>
+<br><br><br>
 <h1>Vous etes deconnecte</h1>
-<a href="index.php">Retour au debut</a>
-<?php $content=ob_get_clean();
- Template::render($content)?>
+<br><br><br>
+
+<?php
+
+$content=ob_get_clean();
+ Template::render($content)
+ ?>
