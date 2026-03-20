@@ -1,9 +1,5 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.3
--- https://www.phpmyadmin.net/
 --
--- Server version: 5.7.26
--- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -15,13 +11,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gamesdb`
+-- Database: `BddRecettes.sql`
 --
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `games`
+-- Table structure for table `Recette`
 --
 CREATE TABLE `Recette` (
   `id` int(11) NOT NULL,
@@ -30,24 +24,24 @@ CREATE TABLE `Recette` (
   `description` varchar(2000),
   `photo` varchar(255) DEFAULT NULL,
   `listeTag` JSON,
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) -- ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ingredients` (
   `idIng` int(11) NOT NULL,
   `nomIng` varchar(255) NOT NULL,
   `photoIng` varchar(255) DEFAULT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) -- ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `ingredients`
+ALTER TABLE `ingredient`
   ADD PRIMARY KEY (`idIng`);
 
 CREATE TABLE `Tag`(
   `nom` varchar(255) NOT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) --ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `Tag`
   ADD PRIMARY KEY (`nom`);
-
+  
 
 INSERT INTO `Recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
 (1,'Crepes','','Une recette originaire de bretagne','crepes.jpg','');
@@ -64,5 +58,4 @@ ALTER TABLE `Recette`
 
 ALTER TABLE `Recette`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 

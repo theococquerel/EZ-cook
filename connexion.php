@@ -1,7 +1,7 @@
 <?php
 
 // Informations sur la BDD et le serveur qui la contient
-$db_name = "gamesdb" ; // Nom de la base de données (pré-existante)
+$db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
 $db_host = "127.0.0.1" ; // Si le serveur MySQL est sur la machine locale
 $db_port = "3306" ; // Port par défaut de MySQL
 
