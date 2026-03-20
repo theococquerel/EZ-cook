@@ -42,6 +42,7 @@ INSERT INTO `ingredient` (`idIng`, `nomIng`, `photoIng`) VALUES
 (2, 'oeuf', 'oeuf.jpg'),
 (3, 'lait', 'lait.jpg'),
 (4, 'sucre', 'sucre.jpg');
+(5, 'pain', 'pain.jpg');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,8 @@ CREATE TABLE `recette` (
 
 INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
 (1, 'Crêpes', '[\"farine\", \"oeuf\", \"lait\", \"sucre\"]', 'Une recette originaire de bretagne', 'crepes.jpg', '[\"dessert\", \"facile\"]');
-
+INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
+(2, 'Pain Perdu', '[\"oeuf\", \"lait\", "\pain\"]', 'Une recette parfaite pour éviter le gachis de pain', 'painperdu.jpg', '[\"dessert\", \"facile\",\"antigaspi"\]');
 -- --------------------------------------------------------
 
 --
@@ -81,7 +83,8 @@ CREATE TABLE `tag` (
 
 INSERT INTO `tag` (`nomTag`) VALUES
 ('dessert'),
-('facile');
+('facile'),
+('antigaspi');
 
 --
 -- Index pour les tables déchargées
