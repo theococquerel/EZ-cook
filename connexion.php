@@ -27,6 +27,16 @@ catch (\Exception $ex){
 // Si pas d'erreur : poursuite de l'exécution
 echo "Connexion OK<br>" ;
 
-$sql = "SELECT * FROM recette";
+$sql = "SELECT * FROM Ingredient" ;
 $statement = $pdo->prepare($sql) ;
-$statement->execute();
+$statement->execute() or die(var_dump($statement->errorInfo())) ;
+
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+?>
+<h3>Liste des ingrédients</h3>
+<ul>
+<!--Affichage du champ 'nomIng' des objets récupérés -->
+<?php foreach ($result as $ingre): ?>
+    <li><?= $ingre['idIng'] ?> - <?= $ingre['nomIng'] ?></li>
+<?php endforeach;?>
+</ul>
