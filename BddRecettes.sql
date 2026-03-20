@@ -43,15 +43,6 @@ ALTER TABLE `Tag`
   ADD PRIMARY KEY (`nom`);
   
 
-INSERT INTO `Recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
-(1,'Crepes','','Une recette originaire de bretagne','crepes.jpg','');
-UPDATE Recette 
-SET listeIng = '["farine", "oeuf", "lait", "sucre"]' 
-WHERE id = 1;
-UPDATE Recette 
-SET listeTag = '["dessert", "facile"]' 
-WHERE id = 1;
-
 ALTER TABLE `Recette`
   ADD PRIMARY KEY (`id`);
 
