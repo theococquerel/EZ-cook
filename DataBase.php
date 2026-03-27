@@ -5,14 +5,14 @@ class DataBase{
         // Informations sur la BDD et le serveur qui la contient
         $db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
         $db_host = "127.0.0.1" ; // Si le serveur MySQL est sur la machine locale
-        $db_port = "3306" ; // Port par défaut de MySQL
+        $db_port = "3306" ; // yann et theo = "3307"
 
         $db_user = "root" ; 
         $db_pwd = "" ;
 
         // Connexion à la BDD
         try{
-            //ça donne 'mysql:dbname=BddRecettes;host=127.0.0.1;port=3306';
+            // Agrégation des informations de connexion dans une chaine DSN (Data Source Name)
             $dsn = 'mysql:dbname=' . $db_name . ';host='. $db_host. ';port=' . $db_port;
 
             // Connexion et récupération de l'objet connecté
@@ -43,5 +43,25 @@ class DataBase{
         return $result;
     }
 
+    public static function chargerTags($pdo): array{
+        $sqlAlltag = "SELECT * FROM tag" ;
+        $statement = $pdo->prepare($sqlAlltag) ;
+        $statement->execute() or die(var_dump($statement->errorInfo())) ;
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
-} ?>
+    //public static function ajoutertag()
+    //public static function ajouterIng()
+    //public static function ajouterRecette()
+    //public static function ModifierRecette()
+    //public static function ModifierTag()
+    //public static function ModifierIng()
+    //public static function SupprimerRecette()
+    //public static function SupprimerIng()
+    //public static function SupprimerTag()
+
+
+    
+} 
+?>

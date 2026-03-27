@@ -83,7 +83,7 @@ body{
     width: 99%;
 }
 
-.recettes-list{
+#recettes-list{
     display: flex;
     flex-direction: row;   
 }
@@ -95,10 +95,4 @@ body{
     border: 1px solid black;
     border-radius: 10px;
     background-color: rgb(255, 255, 255);
-}
-
-.ingredients-list img{
-    width: 100px;
-    height: 100px;
-    
 }

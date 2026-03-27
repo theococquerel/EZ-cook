@@ -34,13 +34,18 @@
         <p style="font-weight: bolder;">Bienvenue sur le (meilleur) site de cuisine de tous les temps !</p>
 
         <div id="formResearch">
-        <form method="post", id="formRes">
-            <input id="research" type="text" name="research">
-            <button id="resButton">Rechercher</button>
+        <form method="post" id="formRes">
+            <input id="research" type="text" name="research" placeholder="Rechercher une recette...">
+            <button id="resButton" type="button">Rechercher</button>
         </form>
         </div>
-    
-        <p></p>
+        <br>
+        <p>Ce site vous permettra de cuisiner simplement... et sans mettre le feu à la cuisine !</p><br><br>
+
+        <div id="templateCook">
+
+        </div>
+
 
     </main>
     <footer id="mainFooter">
@@ -102,7 +107,7 @@
                                 modeAdministrateurActif = false;
                                 pageTitle.innerText = "EZ'Cook";
                             })
-                        }, 2000)
+                        }, 5000)
 
                         
 
@@ -115,16 +120,30 @@
 
             form.addEventListener('reset', function(){
                 let result = document.getElementById("logResult");
-                result.innerText = "";
+                result.innerText = ""
             })
 
            
                     
 
+
+
+
+
+            let recettes = [
+                { titre: "Pâtes carbonara", ingredients: "pâtes, oeuf, lardons" },
+                { titre: "Salade de tomates", ingredients: "tomate, huile, sel" },
+                { titre: "Crêpes", ingredients: "farine, lait, oeuf" },
+                { titre: "Burger maison", ingredients: "pain, steak, fromage" },
+                { titre: "Pain perdu", ingredients: "pain, sucre, beurre"},
+                { titre: "Rougail", ingredients: "saucisses, oignons, tomates pelées, piment"},
+                { titre: "Tarte aux pommes", ingredients: "pommes, sucre, farine, oeufs"}
+            ]
+
             // gestion de la barre de recherche
+                // gestion du bouton
             let resButton = document.getElementById("resButton");
-            let initialColor = resButton.style.color;
-            let initialTextColor = resButton.innerText.style.color;
+            let initialColor = resButton.style.background;
 
             resButton.addEventListener("mousemove", function(){
                 this.style.background = "blue";
@@ -133,7 +152,58 @@
                 this.style.background = initialColor;
                // this.innerText.style.color = initialTextColor;
             })
+                // gestion de la barre (version JS)
+            function research(){
 
+                let valeur = document.getElementById("research").value.toLowerCase()
+
+                let resultats = recettes.filter(recette => {
+                    return recette.titre.toLowerCase().includes(valeur) ||
+                        recette.ingredients.toLowerCase().includes(valeur)
+                })
+
+                afficher(resultats)
+            }
+
+            document.getElementById("formRes").addEventListener("submit", function(e){
+                e.preventDefault()
+                research()
+            })
+
+
+            function afficher(liste){
+
+                let container = document.getElementById("templateCook")
+                container.innerHTML = ""
+
+                let nb=0
+                liste.forEach(recette => {
+                    nb++;
+                    container.innerHTML += 
+                    `
+                        <div class="recette">
+                            <h3>${recette.titre}</h3>
+                            <p>${recette.ingredients}</p>${(nb%3 == 0) ? "<br><br>" : "     "}
+                        </div>
+                    `
+                })
+
+            }
+
+            // structuration de l'affichage
+            let container = document.getElementById("templateCook")
+
+            container.style.display = "grid"
+            container.style.gridTemplateColumns = "repeat(4, 1fr)"
+            container.style.gap = "20px"
+            container.style.padding = "20px"
+
+            document.getElementById("research").addEventListener("input", research)
+            if(document.getElementById("research").value == ""){
+                afficher("");
+            }
+            console.log(resultats)
+            afficher(resultats)
 
 
 

@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . DIRECTORY_SEPARATOR . "Template.php";
 if (!empty($_POST)and isset($_POST['login']) and isset($_POST['password'])){
     if ($_POST['login']=="admin2026" and $_POST['password']=="projet3"){
         $_SESSION['login']=$_POST['login'];
