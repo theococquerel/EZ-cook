@@ -70,7 +70,7 @@ drop table if exists `recette`;
 CREATE TABLE `recette` (
   `id` int(10) UNSIGNED NOT NULL,
   `titre` varchar(255) DEFAULT NULL,
-  `listeIng` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`listeIng`)),
+  `listeIdIng` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`listeIdIng`)),
   `description` varchar(2000) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `listeTag` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`listeTag`))
@@ -80,17 +80,17 @@ CREATE TABLE `recette` (
 -- Déchargement des données de la table `recette`
 --
 
-INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
-(1, 'Crêpes', '[\"farine\", \"oeuf\", \"lait\", \"sucre\"]', 'Une recette originaire de bretagne', 'imagesrecettes/crepes.jpg', '[\"dessert\", \"facile\"]'),
-(2, 'Pain Perdu', '[\"oeuf\", \"lait\", \"pain\"]', 'Une recette parfaite pour éviter le gachis de pain', 'imagesrecettes/painperdu.jpg', '[\"dessert\", \"facile\",\"antigaspi\"]'),
-(3, 'Pâtes carbonara', '[\"pâtes\", \"oeuf\", \"lardons\"]', 'Une recette italienne délicieuse', 'imagesrecettes/patescarbonara.jpg', '[\"plat\",\"facile\", \"bon marché\"]'),
-(4, 'Burger Maison', '[\"steak\", \"pain\", \"fromage\"]', 'Un délicieux burger fait maison', 'imagesrecettes/burgermaison.jpg', '[\"facile\", \"bon marché\"]'),
-(5, 'Rougail', '[\"saucisses\", \"oignons\", \"tomates\", \"piment\"]', "Un plat originaire de la Réunion", 'imagesrecettes/rougail.jpg', '[\"hiver\", \"bon marché\"]'),
-(6, 'Tarte aux pommes', '[\"farine\", \"oeuf\", \"pomme\", \"sucre\"]', 'Une tarte aux pommes simple et délicieuse', 'imagesrecettes/tarteauxpommes.jpg', '[\"dessert\", \"facile\"]'),
-(7, 'Omelette', '[\"oeuf\", \"lardons\", \"pomme de terre\"]', 'Une omelette rapide et savoureuse', 'imagesrecettes/omelette.jpg', '[\"facile\", \"bon marché\"]'),
-(8, 'Omelette de la Mer', '[\"oeuf\", \"crevettes\", \"moules\"]', 'Une omelette inspirée par les plats marins', 'imagesrecettes/omelettemarine.jpg', '[\"facile\", \"bon marché\"]'),
-(9, 'Brownie', '[\"chocolat noir\", \"oeufs\", \"beurre\", \"sucre\", \"farine\"]', 'Un brownie au chocolat fondant', 'imagesrecettes/brownie.jpg', '[\"dessert\", \"long\"]'),
-(10, 'Salade de fruits', '[\"pomme\", \"fraise\", \"orange\", \"raisin\"]', 'Une salade de fruits fraîche et vitaminée', 'imagesrecettes/saladedefruits.jpg', '[\"dessert\", \"facile\"]');
+INSERT INTO `recette` (`id`, `titre`, `listeIdIng`, `description`, `photo`, `listeTag`) VALUES
+(1, 'Crêpes', '[1, 2, 3, 4]', 'Une recette originaire de bretagne', 'imagesrecettes/crepes.jpg', '[\"dessert\", \"facile\"]'),
+(2, 'Pain Perdu', '[2, 3, 5]', 'Une recette parfaite pour éviter le gachis de pain', 'imagesrecettes/painperdu.jpg', '[\"dessert\", \"facile\",\"antigaspi\"]'),
+(3, 'Pâtes carbonara', '[6, 2, 7]', 'Une recette italienne délicieuse', 'imagesrecettes/patescarbonara.jpg', '[\"plat\",\"facile\", \"bon marché\"]'),
+(4, 'Burger Maison', '[8, 5, 9]', 'Un délicieux burger fait maison', 'imagesrecettes/burgermaison.jpg', '[\"facile\", \"bon marché\"]'),
+(5, 'Rougail', '[10, 11, 12, 13]', "Un plat originaire de la Réunion", 'imagesrecettes/rougail.jpg', '[\"hiver\", \"bon marché\"]'),
+(6, 'Tarte aux pommes', '[1, 2, 14, 4]', 'Une tarte aux pommes simple et délicieuse', 'imagesrecettes/tarteauxpommes.jpg', '[\"dessert\", \"facile\"]'),
+(7, 'Omelette', '[2, 7, 15]', 'Une omelette rapide et savoureuse', 'imagesrecettes/omelette.jpg', '[\"facile\", \"bon marché\"]'),
+(8, 'Omelette de la Mer', '[2, 16, 15]', 'Une omelette inspirée par les plats marins', 'imagesrecettes/omelettemarine.jpg', '[\"facile\", \"bon marché\"]'),
+(9, 'Brownie', '[17, 2, 18, 4, 1]', 'Un brownie au chocolat fondant', 'imagesrecettes/brownie.jpg', '[\"dessert\", \"long\"]'),
+(10, 'Salade de fruits', '[14, 19, 20, 21]', 'Une salade de fruits fraîche et vitaminée', 'imagesrecettes/saladedefruits.jpg', '[\"dessert\", \"facile\"]');
 
 
 

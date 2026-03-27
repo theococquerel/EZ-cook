@@ -1,4 +1,5 @@
 <?php
+session_start();
 class Template{
     public static function render(String $content) : void{?>
 

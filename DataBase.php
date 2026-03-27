@@ -1,4 +1,8 @@
 <?php
+include "Recette.php";
+include "Ingredient.php";
+include "Tag.php";
+
 class DataBase{
     // Méthode pour se connecter à la BDD
     public static function getConnection(): PDO{
@@ -52,8 +56,34 @@ class DataBase{
     }
 
     //public static function ajoutertag()
-    //public static function ajouterIng()
-    //public static function ajouterRecette()
+    public static function ajouterIng(Ingredient $ing, $pdo){
+        $sqlRequette = "INSERT INTO Ingredient (idIng, nomIng) VALUES (".$ing->getId().", '".$ing->getNom()."')";
+        echo $sqlRequette . "<br>";
+        $statement = $pdo->prepare($sqlRequette);
+        try {
+            $statement->execute() or die(var_dump($statement->errorInfo()));
+        } catch (\Exception $ex) {
+            // Arrêt de l'exécution du script PHP
+            die("Erreur : " . $ex->getMessage()) ;
+        }
+        echo "Ingredient ajouté !";
+    }
+
+    public static function ajouterRecette(Recette $rec, $pdo){
+        $listIng = "";
+        $listTag = "";
+        $sqlRequette = "INSERT INTO Recette (id, titre, listIdIng, description, photo, listTag) VALUES (".$rec->getId().", '".$rec->getTitre()."', '".$listIng."', '".$rec->getDescribe()."', '".$rec->getPhoto()."', '".$listTag."')";
+        echo $sqlRequette . "<br>";
+        $statement = $pdo->prepare($sqlRequette);
+        try {
+            $statement->execute() or die(var_dump($statement->errorInfo()));
+        } catch (\Exception $ex) {
+            // Arrêt de l'exécution du script PHP
+            die("Erreur : " . $ex->getMessage()) ;
+        }
+        echo "Recette ajoutée !";
+    }
+
     //public static function ModifierRecette()
     //public static function ModifierTag()
     //public static function ModifierIng()
