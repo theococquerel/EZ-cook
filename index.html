@@ -39,6 +39,7 @@
             <button id="resButton" type="button">Rechercher</button>
         </form>
         </div>
+        <div id="tags"></div>
         <br>
         <p>Ce site vous permettra de cuisiner simplement... et sans mettre le feu à la cuisine !</p><br><br>
 
@@ -108,7 +109,7 @@
                                 modeAdministrateurActif = false;
                                 pageTitle.innerText = "EZ'Cook";
                             })
-                        }, 5000)
+                        }, 3000)
 
                         
 
@@ -124,15 +125,22 @@
                 result.innerText = ""
             })
 
+           
+                    
+
+
+
+
+
             let recettes = [
-                { titre: "Pâtes carbonara", ingredients: "pâtes, oeuf, lardons", tags: ["facile", "bon marché"], description: "Spécialité italienne, à base de spaghetti auxquels sont ajoutés du pecorino et des jaunes d'oeuf, puis du guanciale en petits morceaux et du poivre.", /*image:"images/patesCarbo.jpg"*/},
-                { titre: "Crêpes", ingredients: "farine, lait, oeuf", tags: ["dessert", "facile", "abordable"],  description: "Mets composé d'une couche de pâte plus ou moins épaisse, faite de farine, oeufs et lait (ou eau). Elle est généralement servie en dessert." },
+                { titre: "Pâtes carbonara", ingredients: "pâtes, oeuf, lardons", tags: ["facile", "bon marché"], description: "Spécialité italienne, à base de spaghetti auxquels sont ajoutés du pecorino et des jaunes d'oeuf, puis du guanciale en petits morceaux et du poivre.", image:"images/patesCarbo.jpg"},
+                { titre: "Crêpes", ingredients: "farine, lait, oeuf", tags: ["dessert", "facile", "abordable"],  description: "Mets composé d'une couche de pâte plus ou moins épaisse, faite de farine, oeufs et lait (ou eau). Elle est généralement servie en dessert.", image:"images/crepes2.jpg" },
                 { titre: "Burger maison", ingredients: "pain, steak, fromage", tags: ["bon marché", "four"],  description: "Sandwich d'origine allemande constitué de deux pains ronds, d'un steak haché, de crudités et de sauces. On le retrouve très souvent en restauration rapide.", image:"images/burger.jpg"},
-                { titre: "Pain perdu", ingredients: "pain, sucre, beurre", tags: ["dessert", "rapide"],  description: "Mets composé de pain trempé dans un mélange lait/oeufs et cuit. Le but est d'éviter de gaspiller du pain devenu rassis.",image:"images/painPerdu_1.jpg"},
+                { titre: "Pain perdu", ingredients: "pain, sucre, beurre", tags: ["dessert", "antigaspi"],  description: "Mets composé de pain trempé dans un mélange lait/oeufs et cuit. Le but est d'éviter de gaspiller du pain devenu rassis.",image:"images/painPerdu_1.jpg"},
                 { titre: "Rougail", ingredients: "saucisses, oignons, tomates pelées, piment", tags: ["hiver", "bon marché"],  description: "Plat de l'ile de la Réunion, composé de saucisses (fumées ou fraiches, au choix), de tomates en morceaux, d'oignons et éventuellement de piment.", image:"images/rougail.jpg" },
                 { titre: "Tarte aux pommes", ingredients: "pommes, sucre, farine, oeufs", tags: ["dessert", "long", "bon marché"],  description: "Préparation sucrée, faite d'une pâte feuilletée (ou brisée) et de pommes coupées. Se consomme chaude, froide ou tempérée.",image:"images/tarte_aux_pommes_entiere.jpg" },
-                { titre: "Omelette", ingredients: "oeufs, lardons, pommes de terre", tags: ["rapide", "facile", "bon marché"],  description: "Préparation culinaire à base d'oeufs battus, cuite à la poêle. Elle peut être garnie avec de la viande et/ou des aromates.", image: "images/omelette_1.jpg" },
-                { titre: "Omelette marine", ingredients: "oeufs, crevettes, moules, pommes de terre (facultatif)", tags: ["rapide", "facile", "abordable"],  description: "Préparation culinaire à base d'oeufs battus, cuite à la poêle. Elle est ici garnie avec des fruits de mer et éventuellement des aromates.", image: "images/omeletteMer.jpg" },
+                { titre: "Omelette", ingredients: "oeufs, lardons, pommes de terre", tags: [, "facile", "bon marché"],  description: "Préparation culinaire à base d'oeufs battus, cuite à la poêle. Elle peut être garnie avec de la viande et/ou des aromates.", image: "images/omelette_1.jpg" },
+                { titre: "Omelette marine", ingredients: "oeufs, crevettes, moules, pommes de terre (facultatif)", tags: ["facile", "abordable"],  description: "Préparation culinaire à base d'oeufs battus, cuite à la poêle. Elle est ici garnie avec des fruits de mer et éventuellement des aromates.", image: "images/omeletteMer.jpg" },
                 { titre: "Brownie", ingredients: "chocolat blanc, chocolat noir, oeufs, beurre, sucre, farine", tags: ["dessert", "long", "facile", "abordable"],  description: "Gâteau au chocolat cuit au four, pouvant être fondant par endroits. Servi généralement en dessert, froid ou chaud.", image: "images/brownie.jpg" },
                 { titre: "Quiche Lorraine", ingredients: "oeufs, crème, pâte brisée, beurre, lait, lardons", tags: ["long", "facile", "bon marché"],  description: "Plat composé d'une pâte brisée sur laquelle on verse un mélange d'oeufs, de crème et de lardons. On peut aussi ajouter des oignons et/ou des champignons.", image: "images/quicheLorraine.jpg" }
             ]
@@ -156,19 +164,19 @@
 
                 let valeur = normalize(document.getElementById("research").value.trim())
 
-                // si la barre est vide on affiche tout
-                if(valeur === ""){
-                    afficher(recettes);
-                    return;
-                }
-
                 let resultats = recettes.filter(recette => {
-                    return normalize(recette.titre).includes(valeur) ||
-                            normalize(recette.ingredients).includes(valeur)
-                })
+                    let matchText = 
+                        valeur === "" || 
+                        normalize(recette.titre).includes(valeur) ||
+                        normalize(recette.ingredients).includes(valeur);
 
+                    let matchTags = 
+                        selectedTags.length === 0 ||
+                        selectedTags.every(tag => recette.tags.includes(tag));
 
-                afficher(resultats)
+                    return matchText && matchTags;     
+                });
+                afficher(resultats);
             }
 
             document.getElementById("formRes").addEventListener("submit", function(e){
@@ -200,6 +208,7 @@
 
             }
 
+
             // structuration de l'affichage
             let container = document.getElementById("templateCook")
 
@@ -217,7 +226,32 @@
                 window.location.href = "recette.html?id=" + id
             }
 
+
+
+            // tags
+            let selectedTags = [];
+            let tags = document.getElementById("tags");
+            let arrayTag = ["antigaspi", "bon marché", "dessert", "facile", "hiver", "long"];
+            arrayTag.forEach(element => {
+                tags.innerHTML += `<button class="tag-btn" data-tag="${element}">${element}</button>  ` 
+            });
             
+            document.querySelectorAll(".tag-btn").forEach(btn => {
+                btn.addEventListener('click', function(){
+                    let tag = this.dataset.tag;
+
+                    // ajout/suppression
+                    if(selectedTags.includes(tag)){
+                        selectedTags = selectedTags.filter(t => t !== tag);
+                        this.style.background = "";
+                    } else {
+                        selectedTags.push(tag);
+                        this.style.background = "lightblue";
+                    }
+                    research();
+                })
+            })
+
 
         })
 
