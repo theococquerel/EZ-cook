@@ -3,10 +3,10 @@ require_once __DIR__ . '/Template.php';
 require_once __DIR__ . '/DataBase.php';
 session_start();
 
-/*if (!isset($_SESSION['login'])) {
+if (!isset($_SESSION['login'])) {
     header("Location: ../index.php");
     exit();
-}*/
+}
 
 ob_start();
 $pdo=DataBase::getConnection();
