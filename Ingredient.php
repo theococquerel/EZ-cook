@@ -35,5 +35,17 @@
         public function setImage($imageIng){
             $this->imageIng = $imageIng;
         }
+
+        public function getId(){
+            return $this->idIng;
+        }
+
+        public function getNomIng(){
+            return $this->nomIng;
+        }
+
+        public function getImage(){
+            return $this->imageIng;
+        }
     }
 ?>

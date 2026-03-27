@@ -135,7 +135,7 @@ body{
     background-color: rgb(255, 255, 255);
 }
 
-.tags{
+#tags{
     border: 0;
     background-color: darkgreen;
     color: white;
@@ -143,4 +143,36 @@ body{
 
 #injected-content{
     margin-top: 100px;
+}
+#recettePage {
+    background: white;
+    width: 60%;
+    margin-top: 50px;
+    margin-left: 300px;
+    /*margin-right: 100px; */
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: larger;
+}
+
+#img-recette{
+    width: 100%;
+    height: 100%;
+}
+
+#backPage{
+    border: 0;
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: gold;
+    font-family: 'Lucida Sans';
+    font-size: large;
+}
+
+#backPage:hover{
+    background-color: rgb(208, 255, 0);
 }

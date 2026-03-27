@@ -72,10 +72,14 @@ class DataBase{
     }
 
     public static function ajouterRecette(Recette $rec, $pdo){
-        $listIng = "";
-        $listTag = "";
-        $sqlRequette = "INSERT INTO Recette (id, titre, listIdIng, description, photo, listTag) VALUES (".$rec->getId().", '".$rec->getTitre()."', '".$listIng."', '".$rec->getDescribe()."', '".$rec->getPhoto()."', '".$listTag."')";
-        echo $sqlRequette . "<br>";
+        $id = $rec->getId();
+        $titre = $rec->getTitre();
+        $listIng = json_encode($rec->getListeIdIng());
+        $describe = $rec->getDescribe();
+        $photo = $rec->getPhoto();
+        $listTag = json_encode($rec->getListTag());
+        $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES ('".$id."', '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
+        echo $sqlRequette . "<br> <br>";
         $statement = $pdo->prepare($sqlRequette);
         try {
             $statement->execute() or die(var_dump($statement->errorInfo()));

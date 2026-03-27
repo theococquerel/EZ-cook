@@ -7,7 +7,7 @@
         private $photo;
         private $tags;
 
-        public function __construct($id ,$titre, $listeIdIng, $describe, $photo, $tags){
+        public function __construct($id ,$titre, array $listeIdIng, $describe, $photo, array $tags){
             $this->$id = $id;
             $this->titre=$titre;
             $this->listeIdIng=$listeIdIng;
@@ -24,7 +24,7 @@
             return $this->titre;
         }
 
-        public function getListeIdIng(){
+        public function getListeIdIng(): array{
             return $this->listeIdIng;
         }
 
@@ -36,7 +36,7 @@
             return $this->photo;
         }
         
-        public function getListTag(){
+        public function getListTag(): array{
             return $this->tags;
         }
     }
