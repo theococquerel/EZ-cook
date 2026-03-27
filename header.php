@@ -8,7 +8,7 @@
 <body>
 
 <header id="mainHeader">
-        <h1 id="mainTitle">EZ'Cook</h1>
+        <a href="index.php"><h1 id="mainTitle">EZ'Cook</h1></a>
         <?php if (isset($_SESSION['login'])): ?>
             <nav id="adminMenu">
                 <a href="recettes.php">Gestion Recettes</a>
