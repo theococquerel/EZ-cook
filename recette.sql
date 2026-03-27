@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 20 mars 2026 à 13:32
+-- Généré le : ven. 24 mars 2026 à 15:41
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -38,11 +38,27 @@ CREATE TABLE `ingredient` (
 --
 
 INSERT INTO `ingredient` (`idIng`, `nomIng`, `photoIng`) VALUES
-(1, 'farine', 'farine.jpg'),
-(2, 'oeuf', 'oeuf.jpg'),
-(3, 'lait', 'lait.jpg'),
-(4, 'sucre', 'sucre.jpg'),
-(5, 'pain', 'pain.jpg');
+(1, 'farine', 'imagesingredient/farine.jpg'),
+(2, 'oeuf', 'imagesingredient/oeuf.jpg'),
+(3, 'lait', 'imagesingredient/lait.jpg'),
+(4, 'sucre', 'imagesingredient/sucre.jpg'),
+(5, 'pain', 'imagesingredient/pain.jpg'),
+(6, 'pâtes', 'imagesingredient/pates.jpg'),
+(7, 'lardons', 'imagesingredient/lardons.jpg'),
+(8, 'steak', 'imagesingredient/steak.jpg'),
+(9, 'fromage', 'imagesingredient/fromage.jpg'),
+(10, 'saucisses', 'imagesingredient/saucisses.jpg'),
+(11, 'oignons', 'imagesingredient/oignons.jpg'),
+(12, 'tomates', 'imagesingredient/tomates.jpg'),
+(13, 'piment', 'imagesingredient/piment.jpg'),
+(14, 'pomme', 'imagesingredient/pomme.jpg'),
+(15, 'crevettes', 'imagesingredient/crevettes.jpg'),
+(16, 'moules', 'imagesingredient/moules.jpg'),
+(17, 'chocolat noir', 'imagesingredient/chocolatnoir.jpg'),
+(18, 'beurre', 'imagesingredient/beurre.jpg'),
+(19, 'fraise', 'imagesingredient/fraise.jpg'),
+(20, 'orange', 'imagesingredient/orange.jpg'),
+(21, 'raisin', 'imagesingredient/raisin.jpg');
 
 -- --------------------------------------------------------
 
@@ -65,9 +81,22 @@ CREATE TABLE `recette` (
 --
 
 INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
-(1, 'Crêpes', '[\"farine\", \"oeuf\", \"lait\", \"sucre\"]', 'Une recette originaire de bretagne', 'crepes.jpg', '[\"dessert\", \"facile\"]');
-INSERT INTO `recette` (`id`, `titre`, `listeIng`, `description`, `photo`, `listeTag`) VALUES
-(2, 'Pain Perdu', '[\"oeuf\", \"lait\", \"pain\"]', 'Une recette parfaite pour éviter le gachis de pain', 'painperdu.jpg', '[\"dessert\", \"facile\",\"antigaspi\"]');
+(1, 'Crêpes', '[\"farine\", \"oeuf\", \"lait\", \"sucre\"]', 'Une recette originaire de bretagne', 'imagesrecettes/crepes.jpg', '[\"dessert\", \"facile\"]'),
+(2, 'Pain Perdu', '[\"oeuf\", \"lait\", \"pain\"]', 'Une recette parfaite pour éviter le gachis de pain', 'imagesrecettes/painperdu.jpg', '[\"dessert\", \"facile\",\"antigaspi\"]'),
+(3, 'Pâtes carbonara', '[\"pâtes\", \"oeuf\", \"lardons\"]', 'Une recette italienne délicieuse', 'imagesrecettes/patescarbonara.jpg', '[\"plat\",\"facile\", \"bon marché\"]'),
+(4, 'Burger Maison', '[\"steak\", \"pain\", \"fromage\"]', 'Un délicieux burger fait maison', 'imagesrecettes/burgermaison.jpg', '[\"facile\", \"bon marché\"]'),
+(5, 'Rougail', '[\"saucisses\", \"oignons\", \"tomates\", \"piment\"]', "Un plat originaire de la Réunion", 'imagesrecettes/rougail.jpg', '[\"hiver\", \"bon marché\"]'),
+(6, 'Tarte aux pommes', '[\"farine\", \"oeuf\", \"pomme\", \"sucre\"]', 'Une tarte aux pommes simple et délicieuse', 'imagesrecettes/tarteauxpommes.jpg', '[\"dessert\", \"facile\"]'),
+(7, 'Omelette', '[\"oeuf\", \"lardons\", \"pomme de terre\"]', 'Une omelette rapide et savoureuse', 'imagesrecettes/omelette.jpg', '[\"facile\", \"bon marché\"]'),
+(8, 'Omelette de la Mer', '[\"oeuf\", \"crevettes\", \"moules\"]', 'Une omelette inspirée par les plats marins', 'imagesrecettes/omelettemarine.jpg', '[\"facile\", \"bon marché\"]'),
+(9, 'Brownie', '[\"chocolat noir\", \"oeufs\", \"beurre\", \"sucre\", \"farine\"]', 'Un brownie au chocolat fondant', 'imagesrecettes/brownie.jpg', '[\"dessert\", \"long\"]'),
+(10, 'Salade de fruits', '[\"pomme\", \"fraise\", \"orange\", \"raisin\"]', 'Une salade de fruits fraîche et vitaminée', 'imagesrecettes/saladedefruits.jpg', '[\"dessert\", \"facile\"]');
+
+
+
+
+
+
 -- --------------------------------------------------------
 
 --
@@ -86,7 +115,10 @@ CREATE TABLE `tag` (
 INSERT INTO `tag` (`nomTag`) VALUES
 ('dessert'),
 ('facile'),
-('antigaspi');
+('antigaspi'),
+('bon marché'),
+('hiver'),
+('long');
 
 --
 -- Index pour les tables déchargées

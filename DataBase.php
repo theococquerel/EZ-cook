@@ -12,7 +12,7 @@ class DataBase{
 
         // Connexion à la BDD
         try{
-            // Agrégation des informations de connexion dans une chaine DSN (Data Source Name)
+            //ça donne 'mysql:dbname=BddRecettes;host=127.0.0.1;port=3306';
             $dsn = 'mysql:dbname=' . $db_name . ';host='. $db_host. ';port=' . $db_port;
 
             // Connexion et récupération de l'objet connecté
@@ -43,5 +43,5 @@ class DataBase{
         return $result;
     }
 
-    
+
 } ?>
