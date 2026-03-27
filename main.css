@@ -82,3 +82,17 @@ body{
     bottom: 0;
     width: 99%;
 }
+
+.recette {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 10px;
+    text-align: center;
+}
+
+.recette img {
+    width: 220px;
+    height: 150px;
+    object-fit: cover;
+}
