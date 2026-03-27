@@ -9,7 +9,7 @@ class DataBase{
         // Informations sur la BDD et le serveur qui la contient
         $db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
         $db_host = "127.0.0.1" ; // Si le serveur MySQL est sur la machine locale
-        $db_port = "3306" ; // yann et theo = "3307"
+        $db_port = "3307" ; // yann et theo = "3307"
 
         $db_user = "root" ; 
         $db_pwd = "" ;
@@ -56,8 +56,8 @@ class DataBase{
     }
 
     //public static function ajoutertag()
-    public static function ajouterIng(Ingredient $ing, $pdo){
-        $sqlRequette = "INSERT INTO Ingredient (idIng, nomIng) VALUES (".$ing->getId().", '".$ing->getNom()."')";
+    public static function ajouterIng(Ingredient $ing, $pdo):bool{
+        $sqlRequette = "INSERT INTO Ingredient (idIng, nomIng,photoIng) VALUES (".$ing->getId().", '".$ing->getNom()."', '".$ing->getImage()."')";
         echo $sqlRequette . "<br>";
         $statement = $pdo->prepare($sqlRequette);
         try {
@@ -65,8 +65,10 @@ class DataBase{
         } catch (\Exception $ex) {
             // Arrêt de l'exécution du script PHP
             die("Erreur : " . $ex->getMessage()) ;
+            return false;
         }
         echo "Ingredient ajouté !";
+        return true;
     }
 
     public static function ajouterRecette(Recette $rec, $pdo){
