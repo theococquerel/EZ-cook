@@ -5,7 +5,7 @@ class DataBase{
         // Informations sur la BDD et le serveur qui la contient
         $db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
         $db_host = "127.0.0.1" ; // Si le serveur MySQL est sur la machine locale
-        $db_port = "3306" ; // Port par défaut de MySQL
+        $db_port = "3307" ; // Port par défaut de MySQL
 
         $db_user = "root" ; 
         $db_pwd = "" ;
@@ -42,6 +42,25 @@ class DataBase{
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public static function chargerTags($pdo): array{
+        $sqlAlltag = "SELECT * FROM tag" ;
+        $statement = $pdo->prepare($sqlAlltag) ;
+        $statement->execute() or die(var_dump($statement->errorInfo())) ;
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    //public static function ajoutertag()
+    //public static function ajouterIng()
+    //public static function ajouterRecette()
+    //public static function ModifierRecette()
+    //public static function ModifierTag()
+    //public static function ModifierIng()
+    //public static function SupprimerRecette()
+    //public static function SupprimerIng()
+    //public static function SupprimerTag()
+
 
     
 } ?>

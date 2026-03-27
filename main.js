@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
+            if (form){
 
             // récupération et vérification de la paire login/MDP
             form.addEventListener('submit', function(event){
-                event.preventDefault();
                 let result = document.getElementById("logResult");
 
 
@@ -29,44 +29,18 @@ document.addEventListener('DOMContentLoaded', function(){
                     result.style.color = "yellow";
                     result.innerText = "Le mot de passe ne peut pas être vide !";
                 }
+                
                 else{
-                    if(form.login.value == "admin2026" && form.password.value == "projet3"){
-                        result.style.color = "lightgreen";
-                        pageTitle.innerText = "EZ'Cook (administrateur)";
-                        result.innerText = "Connexion réussie : entrée en mode administrateur.";
-                        window.setTimeout(function(){
-                            result.innerText = "";
-                            let admin = document.getElementById("adminTitle");
-                            admin.innerText = "Mode administrateur";
-                            modeAdministrateurActif = true;
-                            form.password.value = "";
-                            form.login.value = "";
-                            connect.innerHTML = `
-                            <div id="adminTitle">Mode administrateur</div><br>
-                            <button id="disconnect">Se déconnecter</button>`;
-
-                            // gestion du cas déconnexion
-                            let disco = document.getElementById("disconnect");
-                            disco.addEventListener('click', function(){
-                                connect.innerHTML = connectInit;
-                                modeAdministrateurActif = false;
-                                pageTitle.innerText = "EZ'Cook";
-                            })
-                        }, 5000)
-
-                        
-
-                    } else{
-                        result.style.color = "yellow";
-                        result.innerText = "Identifiant ou mot de passe incorrect.";
+                    result.style.color = "yellow";
+                    result.innerText = "Identifiant ou mot de passe incorrect.";
                     } 
-                }
-            })
-
+                })
+        
             form.addEventListener('reset', function(){
                 let result = document.getElementById("logResult");
                 result.innerText = ""
-            })
+            });
+        }
 
            
                     

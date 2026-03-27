@@ -1,4 +1,5 @@
 <?php
+session_start();
 class Template
 {
 
@@ -9,17 +10,20 @@ class Template
         <head>
             <meta charset="UTF-8">
             <title>EZ'cook</title>
+            <link rel="stylesheet" href="main.css">
         </head>
         <body>
-            <?php include "header.php" ?>
+            <?php include __DIR__ . DIRECTORY_SEPARATOR . "header.php" ?>
 
             <div id="injected-content"> 
                 <?php echo $content?>
             </div>
-            <?php include "footer.php" ?>
+            <?php include __DIR__ . DIRECTORY_SEPARATOR . "footer.php" ?>
 
 
         </body>
+        <script src="main.js" defer></script>
+        
         </html>
 
     <?php
