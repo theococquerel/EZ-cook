@@ -10,12 +10,19 @@ $tags = DataBase::chargerTags($pdo);
 echo "Formulaire d'ajout de recette <br>";
 
 $recette = new Recette(
-    "101", //ID de la recette
-    "Nouvelle recette",
-    "Description de la recette",
-    "photo.jpg",
-    [1, 2], // IDs des ingrédients
-    ["Tag1", "Tag2"] // Noms des tags
+    $id = null, //ID de la recette
+    $titre = "Nouvelle recette", // titre de la recette
+    $listeIng = [1, 2, 3], // IDs des ingrédients
+    $describe = "Description de la recette", // describe
+    $photo = "photo.jpg",
+    $tags = ["Tag1", "Tag2"] // Noms des tags
 );
 
+$ingr = new Ingredient(
+    $id = 100,
+    $nomIng = "Levure",
+    $imageIng = "levure.jpg"
+)
+
 DataBase::ajouterRecette($recette,$pdo);
+DataBase::ajouterIng($ingr, $pdo);
