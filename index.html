@@ -31,18 +31,18 @@
     </header>
     <br><br><br><br><br><br>
     <main id="mainContent">
-        <p style="font-weight: bolder;">Bienvenue sur le (meilleur) site de cuisine de tous les temps !</p>
-
+        <h3 style="font-weight: bolder; text-align: center;">Bienvenue sur le (meilleur) site de cuisine de tous les temps !</h3>
+        
         <div id="formResearch">
         <form method="post" id="formRes">
-            <input id="research" type="text" name="research" placeholder="Rechercher une recette...">
+            <input id="research" type="text" name="research" placeholder="  Rechercher une recette...">
             <button id="resButton" type="button">Rechercher</button>
         </form>
         </div>
         <div id="tags"></div>
         <br>
         <p>Ce site vous permettra de cuisiner simplement... et sans mettre le feu à la cuisine !</p><br><br>
-
+        
         <p>Nos recettes...</p><br><br>
         <div id="templateCook">
 
@@ -237,6 +237,7 @@
             });
             
             document.querySelectorAll(".tag-btn").forEach(btn => {
+                // quand on coche un tag en cliquant dessus
                 btn.addEventListener('click', function(){
                     let tag = this.dataset.tag;
 
@@ -246,10 +247,21 @@
                         this.style.background = "";
                     } else {
                         selectedTags.push(tag);
-                        this.style.background = "lightblue";
+                        this.style.background = "yellow";
+                    
                     }
                     research();
                 })
+
+                // quand on survole un tag
+                /*let couleurDepart = this.style.background;
+                btn.addEventListener('mousemove', function(){
+                    this.style.background = "blue";
+                })
+                btn.addEventListener('mouseout', function(){
+                    this.style.background = couleurDepart;
+                })*/
+
             })
 
 

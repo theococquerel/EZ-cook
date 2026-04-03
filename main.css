@@ -4,25 +4,6 @@
     color: white;
     margin:0%;
 }
-a {
-    text-decoration: none;
-    color: brown;
-    background: transparent;
-    position: relative;
-    font-weight: 500;
-    display: inline-block;
-}
-
-#adminMenu a {
-    color: white;
-    text-decoration: none;
-    margin: 0 5px;
-    border-radius: 25px;
-    
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    
-}
 
 #mainTitle{
     align-items: center;
@@ -33,7 +14,29 @@ a {
 #formConnect{
     text-align: right;
     align-items: center;
-    padding-right: 10px;
+    padding-right: 25px;
+}
+
+#login{
+    border-radius: 0.25cm;
+    border: 0;
+}
+
+#password{
+    border-radius: 0.25cm;
+    border: 0;
+}
+
+#connection{
+    margin-right: 5px;
+    border-radius: 0.125cm;
+    margin-top: 2px;
+}
+
+#reset{
+    margin-right: 5px;
+    border-radius: 0.125cm;
+    margin-top: 2px;
 }
 
 #mainHeader{
@@ -45,23 +48,27 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+    border-bottom-left-radius:1cm;
+    border-bottom-right-radius: 1cm;
 }
 
 #research{
     height: 30px;
     width: 400px;
     font-size: larger;
+    border-radius: 0.25cm;
 }
 
 #formResearch{
     font-family: 'Lucida Sans';
     align-self: center;
+    align-items: center;
 }
 
 #resButton{
     height: 30px;
     border: 0;
+    border-radius: 0.25cm;
     color: white;
     background-color: rgb(0, 102, 255);
     font-size: larger;
@@ -100,6 +107,8 @@ body{
     position: fixed;
     bottom: 0;
     width: 99%;
+    border-top-left-radius: 0.5cm;
+    border-top-right-radius: 0.5cm;
 }
 
 .recette {
@@ -128,22 +137,24 @@ body{
 
 .recettes-list li{
     list-style-type: none;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
+    margin: 10px; /*taille d'origine : 10px*/
+    padding: 10px; /*taille d'origine : 10px*/
+    border: 1;
     border-radius: 10px;
     background-color: rgb(255, 255, 255);
 }
 
 #tags{
     border: 0;
-    background-color: darkgreen;
+    padding-top: 10px;
     color: white;
 }
 
-#injected-content{
-    margin-top: 100px;
+.tag-btn{
+    background-color: white;
+    border-radius: 0.25cm;
 }
+
 #recettePage {
     background: white;
     width: 60%;
