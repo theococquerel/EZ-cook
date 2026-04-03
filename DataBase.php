@@ -57,17 +57,16 @@ class DataBase{
 
     public static function ajoutertag(Tag $tag, $pdo):bool{
 
-        /*$array = DataBase::chargerTags($pdo);
+        $array = DataBase::chargerTags($pdo);
 
         foreach($array as $e){
             if($e["nomTag"] == $tag->getNom()){
                 return true;
             }
-        }*/
+        }
 
         $sqlRequette = "INSERT INTO tag (nomTag) VALUES (". $tag->getNom() .")";
 
-        $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
         $statement = $pdo->prepare($sqlRequette);
 
         try{
@@ -83,13 +82,13 @@ class DataBase{
 
     public static function ajouterIng(Ingredient $ing, $pdo):bool{
 
-        /*$array = DataBase::chargerIngredients($pdo);
+        $array = DataBase::chargerIngredients($pdo);
 
         foreach($array as $e){
             if($e["nomIng"] === $ing->getNom()){
                 return true;
             }
-        }*/
+        }
 
         $sqlRequette = "INSERT INTO Ingredient (idIng, nomIng,photoIng) VALUES (".$ing->getId().", '".$ing->getNom()."', '".$ing->getImage()."')";
         $statement = $pdo->prepare($sqlRequette);
@@ -106,16 +105,17 @@ class DataBase{
     }
 
     public static function ajouterRecette(Recette $rec, $pdo):bool{
-        /* gerer les doublons */
-        $id = $rec->getId();
-        $titre = $rec->getTitre();
-        $listIng = json_encode($rec->getListeIdIng());
-        $describe = $rec->getDescribe();
-        $photo = $rec->getPhoto();
-        $listTag = json_encode($rec->getListTag());
-        $verif = "SELECT * FROM Ingredient WHERE titre = ". $titre . " AND listIdIng =". $listIng . " AND description=". $describe . " AND photo=". $photo . " AND listeTag=" . $listTag;
+        $array = DataBase::chargerRecettes($pdo);
+
+        foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
+            if(($e["id"] == $rec->getId()) || ( $e["listeIdIng"] == $rec->getListeIdIng() && $e["description"] == $rec->getDescribe() && $e["photo"] == $rec->getPhoto() && $e["listeTag"] == $rec->getListeTag())){
+                return true;
+            }
+        }
+        // ATTRIBUTS DE RECETTE
+        $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
+
         $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES ('".$id."', '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
-        $statementVerif = $pdo->prepare($verif);
         $statement = $pdo->prepare($sqlRequette);
         try {
             if(empty($verif)){
@@ -130,13 +130,13 @@ class DataBase{
         return true;
     }
 
-    public static function SupprimerIng(Ingredient $ing ,$pdo): bool{
+    public static function SupprimerIng($idIng ,$pdo): bool{
         
         $array = DataBase::chargerIngredients($pdo);
 
         foreach($array as $e){
-            if($e["nomIng"] === $ing->getNom()){
-                $sqlRequette = "DELETE FROM Ingredient WHERE idIng = ". $ing->getId();
+            if($e["idIng"] == $idIng){
+                $sqlRequette = "DELETE FROM Ingredient WHERE idIng = ". $idIng;
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{
@@ -156,11 +156,12 @@ class DataBase{
 
         foreach($array as $e){
             if($e["nomTag"] == $tag->getNom()){
-                $sqlRequette = "DELETTE FROM tag WHERE nomTag=". $tag->getNom();
+                $sqlRequette = "DELETE FROM tag WHERE nomTag = ". $tag->getNom();
                 $statement = $pdo-> prepare($sqlRequette);
 
                 try{
                     $statement->execute() or die(var_dump($statement->errorInfo()));
+                    return true;
                 }
                 catch(\Exception $ex){
                     die("Erreur supprimer tag : " . $ex->getMessage());
@@ -175,9 +176,14 @@ class DataBase{
 
     //public static function SupprimerRecette()
 
-    //public static function ModifierRecette();
-    //public static function ModifierTag()
+
+    public static function ModifierTag(Tag $tag, $id, $pdo){
+        
+    }
     //public static function ModifierIng()
+
+
+    //public static function ModifierRecette();
 
 
     
