@@ -26,7 +26,6 @@ $tags=DataBase::chargerTags($pdo);?>
     <tr>
         <td><?= htmlspecialchars($t['nomTag'])?></td>
         <td>
-        <a href="tags_modifier.php?id=<?=$t['nomTag']?>">Modifier</a>
         <a href="tag_supprimer.php?id=<?=$t['nomTag']?>">Supprimer</a>
         </td>
     </tr>

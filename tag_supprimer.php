@@ -10,7 +10,7 @@ $result=Database::SupprimerTag($t,$pdo);
 
 
 if ($result){
-    header("Location:tag.php");
+    header("Location:tags.php");
     exit();
 }
 else {

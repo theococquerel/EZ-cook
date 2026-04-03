@@ -228,13 +228,28 @@ class DataBase{
 
                 try{
                     $statement->execute() or die(var_dump($statement->errorInfo()));
-                    return true;
                 }
                 catch(\Exception $ex){
                     die("Erreur supprimer recette : " . $ex->getMessage());
                     return false;
                 }
             }
+        }
+        return true;
+    }
+
+    // RECHERCHE SUR LA TABLE DE RECETTE INDEX.PHP
+    public static function recherche($search, $pdo): bool{
+
+        $sqlRequette = "SELECT * FROM recette WHERE titre LIKE '%" $search . "%'";
+        $statement = $pdo->prepare($sqlRequette);
+
+        try{
+            $statement->execute() or die(var_dump($statement->errorInfo()));
+        }
+        catch(\Exception $ex){
+            die("Erreur de recherche de Recette : " . $ex->getMessage());
+            return false;
         }
         return true;
     }
