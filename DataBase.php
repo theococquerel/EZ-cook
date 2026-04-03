@@ -99,7 +99,7 @@ class DataBase{
         $array = DataBase::chargerTable($pdo, "recette");
 
         foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
-            if($e["id"]==$rec->getId()){
+            if($e["id"]==0){
                 return false;
             }
         }
@@ -167,7 +167,7 @@ class DataBase{
     }
 
     public static function SupprimerRecette($id, $pdo){
-        $array = DataBase::chargerRecettes($pdo, "recette");
+        $array = DataBase::chargerTable($pdo, "recette");
 
         foreach($array as $e){
             if($e["id"] == $id){
