@@ -65,7 +65,7 @@ class DataBase{
             }
         }
 
-        $sqlRequette = "INSERT INTO tag (nomTag) VALUES (". $tag->getNom() .")";
+        $sqlRequette = "INSERT INTO tag (nomTag) VALUES ('". $tag->getNom() ."')";
 
         $statement = $pdo->prepare($sqlRequette);
 
@@ -151,12 +151,12 @@ class DataBase{
 
     }
 
-    public static function SupprimerTag(Tag $tag, $pdo): bool{
+    public static function SupprimerTag($nomTag, $pdo): bool{
         $array = DataBase::chargerTags($pdo);
 
         foreach($array as $e){
-            if($e["nomTag"] == $tag->getNom()){
-                $sqlRequette = "DELETE FROM tag WHERE nomTag = ". $tag->getNom();
+            if($e["nomTag"] == $nomTag){
+                $sqlRequette = "DELETE FROM tag WHERE nomTag = '". $nomTag . "'";
                 $statement = $pdo-> prepare($sqlRequette);
 
                 try{
@@ -175,7 +175,7 @@ class DataBase{
     }
 
     public static function SupprimerRecette($id, $pdo){
-        $array = DataBase::chargerRecettes();
+        $array = DataBase::chargerRecettes($pdo);
 
         foreach($array as $e){
             if($e["id"] == $id){
@@ -195,9 +195,27 @@ class DataBase{
         return true;
     }
 
+    // Modification de l'objet ingredient par ing a l'id = $idIng
+    public static function ModifierIng(Ingredient $ing,$idIng,$pdo): bool{
+        $array = DataBase::chargerIngredients($pdo);
+
+        foreach($array as $e){
+            if($e["idIng"] == $idIng){
+                $sqlRequette = "UPDATE ingredient SET nomIng =" . $ing->getNom(). ", SET imageIng =" . $ing->getImage() . " WHERE idIng =". $idIng;
+                $statement = $pdo->prepare($sqlRequette);
+
+                try{
+                    $statement->execute() or die(var_dump($statement->errorInfo()));
+                }catch(\Exception $ex){
+                    die("Erreur supprimer ingrédient : ". $ex->getMessage());
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     //public static function ModifierTag(Tag $tag, $id, $pdo)
-    //public static function ModifierIng()
 
 
     //public static function ModifierRecette();

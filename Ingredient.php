@@ -22,18 +22,5 @@
         public function getImage(){
             return $this->imageIng;
         }
-        
-        // Ajout des setters (optionnel)
-        public function setId($idIng){
-            $this->idIng = $idIng;
-        }
-        
-        public function setNom($nomIng){
-            $this->nomIng = $nomIng;
-        }
-        
-        public function setImage($imageIng){
-            $this->imageIng = $imageIng;
-        }
     }
 ?>
