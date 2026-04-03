@@ -105,14 +105,11 @@ class DataBase{
         }
         // ATTRIBUTS DE RECETTE
         $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
-
-        $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES ('".$id."', '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
+        $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES (". $id .", '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
         echo var_dump($sqlRequette);
         $statement = $pdo->prepare($sqlRequette);
         try {
-            if(empty($verif)){
-                $statement->execute() or die(var_dump($statement->errorInfo()));
-            }
+            $statement->execute() or die(var_dump($statement->errorInfo()));
         } catch (\Exception $ex) {
             // Arrêt de l'exécution du script PHP
             die("Erreur : " . $ex->getMessage()) ;
@@ -207,15 +204,27 @@ class DataBase{
         return true;
     }
 
-    //public static function ModifierTag(Tag $tag, $id, $pdo)
-
-    public static function ModifierRecette(Recette $rec, $id, $pdo){
+    public static function ModifierRecette(Recette $rec, $id, $pdo): bool{
         $array = DataBase::chargerTable($pdo, "recette");
-    }
-}
-    //public static function ModifierRecette();
+        $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
 
-/*
+        foreach($array as $e){
+            if($e["id"] == $id){
+                $sqlRequette = "UPDATE recette SET id =". $id . ", SET titre =". $titre . ", SET listeIng =". $listIng . ", SET description =". $describe . ", SET photo =" . $photo. ", SET listeTag =" . $listTag . " WHERE id=". $id;
+                $statement = $pdo->prepare($sqlRequette);
+
+                try{
+                    statement->execute() or die(var_dump($statement->errorInfo()));
+                }
+                catch(\Exception $ex){
+                    die("Erreur modifier recette : " . $ex->getMessage());
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     // RECHERCHE SUR LA TABLE DE RECETTE INDEX.PHP
     public static function recherche($search, $pdo): bool{
 
@@ -232,5 +241,4 @@ class DataBase{
         return true;
     }
 } 
-*/
 ?>
