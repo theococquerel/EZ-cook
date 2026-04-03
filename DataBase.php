@@ -96,7 +96,16 @@ class DataBase{
     }
 
     public static function ajouterRecette(Recette $rec, $pdo):bool{
+
         $array = DataBase::chargerTable($pdo, "recette");
+
+        $id=0;
+        foreach($array as $i){ // calcul de l'id max de la bdd
+            if ($i["id"]>$id){
+                $id=$i["id"];
+            }
+        }
+        $id++; // max + 1 > max du tableau pour garder unicité des clés
 
         foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
             if($e["id"]==0){
@@ -104,7 +113,7 @@ class DataBase{
             }
         }
         // ATTRIBUTS DE RECETTE
-        $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
+        $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
         $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES (". $id .", '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
         echo var_dump($sqlRequette);
         $statement = $pdo->prepare($sqlRequette);

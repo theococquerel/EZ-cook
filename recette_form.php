@@ -13,13 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 $recettes=DataBase::chargerTable($pdo, "recette");
-$id=0;
-foreach($recettes as $i){
-    if ($i["id"]>$id){
-        $id=$i["id"];
-    }
-}
-$id++;
+
 
 // Récupération des données du formulaire
 $titre = trim($_POST['titre'] ?? '');
@@ -50,7 +44,7 @@ if (!empty($errors)) {
 }
 
 // Création de l'objet Recette
-$recette = new Recette($id,$titre, $ingredients, $description, $photoName, $tags);
+$recette = new Recette(NULL,$titre, $ingredients, $description, $photoName, $tags);
 // Connexion à la BDD et ajout
 
 try {
