@@ -56,37 +56,46 @@ class DataBase{
     }
 
     public static function ajoutertag(Tag $tag, $pdo):bool{
-        $verif = "SELECT * FROM tag WHERE nomTag =". $tag->getNom();
-        $sqlRequette = "INSERT INTO tag (nomTag) VALUES (". $tag->getNom .")";
+        $array = $this->chargerTags($pdo);
 
-        $statementVerif = $pdo->prepare($verif);
+        foreach($array as $e){
+            if($e == $tag->getNom()){
+                return true;
+            }
+        }
+
+        $sqlRequette = "INSERT INTO tag (nomTag) VALUES (". $tag->getNom() .")";
+
         $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
         $statement = $pdo->prepare($sqlRequette);
 
         try{
-            if(empty($result)){
-                $statement->execute() or die(var_dump($statement->errorInfo()));
-            }
+            $statement->execute() or die(var_dump($statement->errorInfo()));
         }
         catch(\Exception $ex){
             die("Erreur ajout Tag : " . $ex->getMessage()) ;
             return false;
         }
         echo "Tag ajouté";
-        return false;
+        return true;
     }
 
-
     public static function ajouterIng(Ingredient $ing, $pdo):bool{
-        $verif = "SELECT * FROM Ingredient WHERE idIng =" . $ing->getId() . " AND nomIng = ". $ing->getNom();
+
+        $array = $this->chargerIngredients($pdo);
+
+        foreach($array as $e){
+            if($e === $ing->getNom()){
+                return true;
+            }
+        }
+
         $sqlRequette = "INSERT INTO Ingredient (idIng, nomIng,photoIng) VALUES (".$ing->getId().", '".$ing->getNom()."', '".$ing->getImage()."')";
         $statementVerif = $pdo->prepare($verif);
         $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
         $statement = $pdo->prepare($sqlRequette);
         try {
-            if(empty($results)){
-                $statement->execute() or die(var_dump($statement->errorInfo()));
-            }
+            $statement->execute() or die(var_dump($statement->errorInfo()));
         } catch (\Exception $ex) {
             // Arrêt de l'exécution du script PHP
             die("Erreur ajout Ing : " . $ex->getMessage()) ;
@@ -103,7 +112,7 @@ class DataBase{
         $describe = $rec->getDescribe();
         $photo = $rec->getPhoto();
         $listTag = json_encode($rec->getListTag());
-        $verif = "SELECT * FROM Ingredient WHERE id =" . $id . " AND titre = ". $titre . " AND listIdIng =". $listIng . " AND description=". $describe . " AND photo=". $photo . " AND listeTag=" . $listTag;
+        $verif = "SELECT * FROM Ingredient WHERE titre = ". $titre . " AND listIdIng =". $listIng . " AND description=". $describe . " AND photo=". $photo . " AND listeTag=" . $listTag;
         $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES ('".$id."', '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
         $statementVerif = $pdo->prepare($verif);
         $statement = $pdo->prepare($sqlRequette);
@@ -120,12 +129,21 @@ class DataBase{
         return true;
     }
 
+    public static function SupprimerIng(Ingredient $ing ,$pdo): bool{
+        $verif = "SELECT * FROM Ingredient WHERE idIng =" . $ing->getId() . " AND nomIng = ". $ing->getNom();
+        $sqlRequette = "DELETE FROM Ingredient WHERE idIng = ". $ing->getId();
+
+        $statementVerif = $pdo->prepare($verif);
+        $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
+        $statement = $pdo->prepare($sqlRequette);
+    }
+    //public static function SupprimerTag()
+
+    //public static function SupprimerRecette()
+
     //public static function ModifierRecette();
     //public static function ModifierTag()
     //public static function ModifierIng()
-    //public static function SupprimerRecette()
-    //public static function SupprimerIng()
-    //public static function SupprimerTag()
 
 
     
