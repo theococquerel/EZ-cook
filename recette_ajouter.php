@@ -42,7 +42,7 @@ ob_start();
             <div class="checkbox-group">
                 <?php foreach ($ingredients as $ingredient): ?>
                     <label>
-                        <input type="checkbox" name="ingredients[]" value="<?= htmlspecialchars($ingredient['nomIng']) ?>">
+                        <input type="checkbox" name="ingredients[]" value="<?=$ingredient['idIng'] ?>">
                         <?= htmlspecialchars($ingredient['nomIng']) ?>
                     </label>
                 <?php endforeach; ?>

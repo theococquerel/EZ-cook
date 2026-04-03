@@ -2,17 +2,18 @@
 require_once __DIR__ . '/Template.php';
 require_once __DIR__ . '/DataBase.php';
 
-
 if (!isset($_SESSION['login'])) {
-    header("Location: ../index.php");
+    header("Location:index.php");
     exit();
 }
+
 
 ob_start();
 $pdo=DataBase::getConnection();
 $tags=DataBase::chargerTags($pdo);?>
+<div class="table-container">
 <h2>Gestion des ingredients</h2>
-<a href="tags_ajouter.php">Ajouter un tag</a>
+<a href="tags_ajout.php">Ajouter un tag</a>
 <table border="1" cellpadding="10">
     <thead>   
         <tr>
@@ -32,6 +33,7 @@ $tags=DataBase::chargerTags($pdo);?>
     <?php endforeach; ?>
 </tbody>
 </table>
+    </div>
 
 
 <?php $content=ob_get_clean();

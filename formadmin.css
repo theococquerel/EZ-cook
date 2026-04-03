@@ -103,3 +103,46 @@
         margin-bottom: 10px;
         color: #555;
     }
+
+    .table-container {
+    overflow-y: auto; /* Scroll vertical */
+    overflow-x: auto; /* Scroll horizontal si besoin */
+    margin-top: 120px; /* Espace sous le header fixe */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Style pour le tableau en scroll */
+.table-container thead tr {
+    position: sticky;
+    top: 0;
+    background-color: rgb(241, 78, 60);
+    color: white;
+    z-index: 10;
+}
+
+.table-container th,
+.table-container td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-container tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+a{
+    color: brown;
+    text-decoration: none;
+}
+
+#mainHeader a{
+    color: white;
+    padding-right: 10px;
+}

@@ -1,14 +1,19 @@
 <?php
 session_start();
 class Template{
-    public static function render(String $content) : void{?>
-
+    public static function render(String $content) : void{
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        ?>
+        
         <!doctype html>
         <html lang="fr">
         <head>
             <meta charset="UTF-8">
             <title>EZ'cook</title>
             <link rel="stylesheet" href="main.css">
+            <link rel="stylesheet" href="formadmin.css">
         </head>
         <body>
             <?php include __DIR__.DIRECTORY_SEPARATOR."header.php" ?>
