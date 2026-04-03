@@ -10,8 +10,8 @@ if (!isset($_SESSION['login'])) {
 }
 
 $pdo = DataBase::getConnection();
-$ingredients = DataBase::chargerIngredients($pdo);
-$tags = DataBase::chargerTags($pdo);
+$ingredients = DataBase::chargerTable($pdo,"Ingredients");
+$tags = DataBase::chargerTable($pdo,"tag");
 
 ob_start();
 ?>

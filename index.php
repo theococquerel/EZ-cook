@@ -14,8 +14,8 @@ ob_start()?>
 </div>
 <?php
 $con=DataBase::getConnection(); // PDO $con est la connexion à la base de données
-$ing=DataBase::chargerIngredients($con);
-$result=DataBase::chargerRecettes($con);
+$ing=DataBase::chargerTable($con,"ingredient");
+$result=DataBase::chargerTable($con,"recette");
 ?>
 <table id="tableIngredients">
     <?php foreach ($ing as $ingredient): ?>

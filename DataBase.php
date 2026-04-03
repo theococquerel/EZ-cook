@@ -30,34 +30,20 @@ class DataBase{
         }
         return $pdo;
     }
-    // Méthode pour charger tous les ingrédients de la BDD
-    public static function chargerIngredients($pdo): array{
-        $sqlAllIng = "SELECT * FROM Ingredient" ;
-        $statement = $pdo->prepare($sqlAllIng) ;
-        $statement->execute() or die(var_dump($statement->errorInfo())) ;
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-    // Méthode pour charger toutes les recettes de la BDD
-    public static function chargerRecettes($pdo): array{
-        $sqlAllRecettes = "SELECT * FROM Recette" ;
-        $statement = $pdo->prepare($sqlAllRecettes) ;
-        $statement->execute() or die(var_dump($statement->errorInfo())) ;
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
 
-    public static function chargerTags($pdo): array{
-        $sqlAlltag = "SELECT * FROM tag" ;
-        $statement = $pdo->prepare($sqlAlltag) ;
-        $statement->execute() or die(var_dump($statement->errorInfo())) ;
+    // Methode pour charger tout les element d'une table quelconque
+    // $table = {"Ingredient", "Recette", "tag"}
+    public static function chargerTable($pdo, $table){
+        $sqlAllElt = "SELECT * FROM ". $table;
+        $statement = $pdo->prepare($sqlAllElt);
+        $statement->execute() or die(var_dump($statement->errorInfo()));
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
     public static function ajoutertag(Tag $tag, $pdo):bool{
 
-        $array = DataBase::chargerTags($pdo);
+        $array = DataBase::chargerTable($pdo,"tag");
 
         foreach($array as $e){
             if($e["nomTag"] == $tag->getNom()){
@@ -82,7 +68,7 @@ class DataBase{
 
     public static function ajouterIng(Ingredient $ing, $pdo):bool{
 
-        $array = DataBase::chargerIngredients($pdo);
+        $array = DataBase::chargerTable($pdo, "Ingredient");
 
         foreach($array as $e){
             if($e["nomIng"] === $ing->getNom()){
@@ -105,7 +91,7 @@ class DataBase{
     }
 
     public static function ajouterRecette(Recette $rec, $pdo):bool{
-        $array = DataBase::chargerRecettes($pdo);
+        $array = DataBase::chargerTable($pdo, "recette");
 
         foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
             if($e["id"]==$rec->getId()){
@@ -133,7 +119,7 @@ class DataBase{
 
     public static function SupprimerIng($idIng ,$pdo): bool{
         
-        $array = DataBase::chargerIngredients($pdo);
+        $array = DataBase::chargerTable($pdo, "ingredient");
 
         foreach($array as $e){
             if($e["idIng"] == $idIng){
@@ -153,7 +139,7 @@ class DataBase{
     }
 
     public static function SupprimerTag($nomTag, $pdo): bool{
-        $array = DataBase::chargerTags($pdo);
+        $array = DataBase::chargerTable($pdo, "tag");
 
         foreach($array as $e){
             if($e["nomTag"] == $nomTag){
@@ -176,7 +162,7 @@ class DataBase{
     }
 
     public static function SupprimerRecette($id, $pdo){
-        $array = DataBase::chargerRecettes($pdo);
+        $array = DataBase::chargerRecettes($pdo, "recette");
 
         foreach($array as $e){
             if($e["id"] == $id){
@@ -198,7 +184,7 @@ class DataBase{
 
     // Modification de l'objet ingredient par ing a l'id = $idIng
     public static function ModifierIng(Ingredient $ing,$idIng,$pdo): bool{
-        $array = DataBase::chargerIngredients($pdo);
+        $array = DataBase::chargerTable($pdo, "ingredient");
 
         foreach($array as $e){
             if($e["idIng"] == $idIng){
@@ -218,10 +204,28 @@ class DataBase{
 
     //public static function ModifierTag(Tag $tag, $id, $pdo)
 
-
+    public static function ModifierRecette(Recette $rec, $id, $pdo){
+        $array = DataBase::chargerTable($pdo, "recette");
+    }
+}
     //public static function ModifierRecette();
 
+/*
+    // RECHERCHE SUR LA TABLE DE RECETTE INDEX.PHP
+    public static function recherche($search, $pdo): bool{
 
-    
+        $sqlRequette = "SELECT * FROM recette WHERE titre LIKE '%" . $search . "%'";
+        $statement = $pdo->prepare($sqlRequette);
+
+        try{
+            $statement->execute() or die(var_dump($statement->errorInfo()));
+        }
+        catch(\Exception $ex){
+            die("Erreur de recherche de Recette : " . $ex->getMessage());
+            return false;
+        }
+        return true;
+    }
 } 
+*/
 ?>

@@ -10,7 +10,7 @@ if (!isset($_SESSION['login'])) {
 
 ob_start();
 $pdo=DataBase::getConnection();
-$tags=DataBase::chargerTags($pdo);?>
+$tags=DataBase::chargerTable($pdo,"tag");?>
 <div class="table-container">
 <h2>Gestion des ingredients</h2>
 <a href="tags_ajout.php">Ajouter un tag</a>

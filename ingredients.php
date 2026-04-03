@@ -10,7 +10,16 @@ if (!isset($_SESSION['login'])) {
 
 ob_start();
 $pdo=DataBase::getConnection();
-$ing=DataBase::chargerIngredients($pdo);?>
+$ing=DataBase::chargerTable($pdo, "ingredient");?>
+<?php if(isset($_SESSION['message'])): ?>
+    <div class="success-message"><?= $_SESSION['message'] ?></div>
+    <?php unset($_SESSION['message']); ?>
+<?php endif; ?>
+
+<?php if(isset($_SESSION['error'])): ?>
+    <div class="error-message"><?= $_SESSION['error'] ?></div>
+    <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
 <div class="table-container">
 <h2>Gestion des ingredients</h2>
 <a href="ingredient_ajouter.php">Ajouter un ingredient</a>

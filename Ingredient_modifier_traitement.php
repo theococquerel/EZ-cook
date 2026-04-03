@@ -27,7 +27,7 @@ if (!$idIng || empty($nom)) {
 $photoName = null;
 
 // Récupérer l'ancienne photo si nécessaire
-$ingredients = DataBase::chargerIngredients($pdo);
+$ingredients = DataBase::chargerTable($pdo,"Ingredient");
 $anciennePhoto = '';
 foreach ($ingredients as $ing) {
     if ($ing['idIng'] == $idIng) {

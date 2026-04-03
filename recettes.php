@@ -10,7 +10,7 @@ if (!isset($_SESSION['login'])) {
 
 ob_start();
 $pdo=DataBase::getConnection();
-$recettes=DataBase::chargerRecettes($pdo);?>
+$recettes=DataBase::chargerTable($pdo,"recette");?>
 <div class="table-container">
 <h2>Gestion des recettes</h2>
 <a href="recette_ajouter.php">Ajouter une recette</a>

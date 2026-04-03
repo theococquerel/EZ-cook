@@ -17,7 +17,7 @@ if (!$idIng) {
 }
 
 // Récupérer l'ingrédient à modifier
-$ingredients = DataBase::chargerIngredients($pdo);
+$ingredients = DataBase::chargerTable($pdo,"Ingredient");
 $ingredient = null;
 
 foreach ($ingredients as $ing) {
