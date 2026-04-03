@@ -30,6 +30,7 @@ class DataBase{
         }
         return $pdo;
     }
+
     // Méthode pour charger tous les ingrédients de la BDD
     public static function chargerIngredients($pdo): array{
         $sqlAllIng = "SELECT * FROM Ingredient" ;
