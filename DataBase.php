@@ -174,12 +174,29 @@ class DataBase{
 
     }
 
-    //public static function SupprimerRecette()
+    public static function SupprimerRecette($id, $pdo){
+        $array = DataBase::chargerRecettes();
 
+        foreach($array as $e){
+            if($e["id"] == $id){
+                $sqlRequette = "DELETE FROM recette WHERE id = " . $id;
+                $statement = $pdo->prepare($sqlRequette);
 
-    public static function ModifierTag(Tag $tag, $id, $pdo){
-        
+                try{
+                    $statement->execute() or die(var_dump($statement->errorInfo()));
+                    return true;
+                }
+                catch(\Exception $ex){
+                    die("Erreur supprimer recette : " . $ex->getMessage());
+                    return false;
+                }
+            }
+        }
+        return true;
     }
+
+
+    //public static function ModifierTag(Tag $tag, $id, $pdo)
     //public static function ModifierIng()
 
 

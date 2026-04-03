@@ -5,145 +5,145 @@
         background: white;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
+}
     
-    .form-group {
-        margin-bottom: 20px;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #333;
-    }
-    
-    .form-group input[type="text"],
-    .form-group input[type="file"],
-    .form-group textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-        font-family: inherit;
-    }
-    
-    .form-group textarea {
-        min-height: 100px;
-        resize: vertical;
-    }
-    
-    .checkbox-group {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-    
-    .checkbox-group label {
-        display: flex;
-        align-items: center;
-        font-weight: normal;
-        margin-bottom: 0;
-    }
-    
-    .checkbox-group input[type="checkbox"] {
-        margin-right: 8px;
-    }
-    
-    .form-actions {
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-        margin-top: 20px;
-    }
-    
-    .btn-submit {
-        background: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    
-    .btn-submit:hover {
-        background: #45a049;
-    }
-    
-    .btn-cancel {
-        background: #f44336;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-    }
-    
-    .btn-cancel:hover {
-        background: #da190b;
-    }
-    
-    h2 {
-        margin-top: 0;
-        margin-bottom: 20px;
-        color: #333;
-    }
-    
-    .section-title {
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #555;
-    }
+.form-group {
+    margin-bottom: 20px;
+}
 
-    .table-container {
-    max-height: calc(100vh - 200px); /* Hauteur max = hauteur écran - 200px */
-    overflow-y: auto; /* Scroll vertical */
-    overflow-x: auto; /* Scroll horizontal si besoin */
-    margin-top: 120px; /* Espace sous le header fixe */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-submit:hover {
+    background: #45a049;
+}
+
+.btn-cancel {
+    background: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-cancel:hover {
+    background: #da190b;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.table-container {
+max-height: calc(100vh - 200px); /* Hauteur max = hauteur écran - 200px */
+overflow-y: auto; /* Scroll vertical */
+overflow-x: auto; /* Scroll horizontal si besoin */
+margin-top: 120px; /* Espace sous le header fixe */
+border: 1px solid #ddd;
+border-radius: 4px;
 }
 
 .table-container table {
-    width: 100%;
-    border-collapse: collapse;
+width: 100%;
+border-collapse: collapse;
 }
 
 /* Style pour le tableau en scroll */
 .table-container thead tr {
-    position: sticky;
-    top: 0;
-    background-color: rgb(241, 78, 60);
-    color: white;
-    z-index: 10;
+position: sticky;
+top: 0;
+background-color: rgb(241, 78, 60);
+color: white;
+z-index: 10;
 }
 
 .table-container th,
 .table-container td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+padding: 12px;
+text-align: left;
+border-bottom: 1px solid #ddd;
 }
 
 .table-container tbody tr:hover {
-    background-color: #f5f5f5;
+background-color: #f5f5f5;
 }
 
 a{
-    color: brown;
-    text-decoration: none;
+color: brown;
+text-decoration: none;
 }
 
 #mainHeader a{
-    color: white;
-    padding-right: 10px;
+color: white;
+padding-right: 10px;
 }
