@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Recette.php';
-
+$pdo = DataBase::getConnection();
 if (!isset($_SESSION['login'])) {
     header("Location:index.php");
     exit();
@@ -12,6 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: recette_ajouter.php");
     exit();
 }
+$recettes=DataBase::chargerRecettes($pdo);
+$id=0;
+foreach($recettes as $i){
+    if ($i["id"]>$id){
+        $id=$i["id"];
+    }
+}
+$id++;
 
 // Récupération des données du formulaire
 $titre = trim($_POST['titre'] ?? '');
@@ -42,12 +50,12 @@ if (!empty($errors)) {
 }
 
 // Création de l'objet Recette
-$recette = new Recette($titre, $ingredients, $description, $photoName, $tags);
+$recette = new Recette($id,$titre, $ingredients, $description, $photoName, $tags);
 
 // Connexion à la BDD et ajout
 try {
     $pdo = DataBase::getConnection();
-    $result = DataBase::ajouterRecette($pdo, $recette);
+    $result = DataBase::ajouterRecette($recette, $pdo);
     
     if ($result) {
         $_SESSION['message'] = "Recette \"" . $recette->getTitre() . "\" ajoutée avec succès !";
