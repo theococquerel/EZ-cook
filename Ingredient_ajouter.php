@@ -29,7 +29,7 @@ ob_start();
             <input type="file" id="photo" name="photo">
         </div>        
         <div class="form-actions">
-            <a href="Ingredient_ajout.php" class="btn-cancel">Annuler</a>
+            <a href="ingredients.php" class="btn-cancel">Annuler</a>
             <button type="submit" class="btn-submit">Ajouter L'ingredient</button>
         </div>
     </form>

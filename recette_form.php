@@ -28,7 +28,7 @@ $ingredients = $_POST['ingredients'] ?? [];
 $tags = $_POST['tags'] ?? [];
 
 // Gestion de l'upload de l'image
-$photoName = $_FILES['photo']['name'];
+$photoName = ($_FILES['photo']['name'] ?? '');
 // Validation des données
 $errors = [];
 
@@ -51,10 +51,9 @@ if (!empty($errors)) {
 
 // Création de l'objet Recette
 $recette = new Recette($id,$titre, $ingredients, $description, $photoName, $tags);
-
 // Connexion à la BDD et ajout
+
 try {
-    $pdo = DataBase::getConnection();
     $result = DataBase::ajouterRecette($recette, $pdo);
     
     if ($result) {

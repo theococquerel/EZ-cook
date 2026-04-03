@@ -16,15 +16,15 @@ ob_start();
 <link rel="stylesheet" href="formadmin.css">
 
 <div class="form-container">
-    <h2>Ajouter un nouvel ingredient</h2>
+    <h2>Ajouter un Tag</h2>
     <form action="tag_form.php" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="nomIng">Nom du tag*</label>
-            <input type="text" id="titre" name="titre" required>
+            <input type="text" id="titre" name="titre" required placeholder="<?php $_GET["id"]">
         </div>        
         <div class="form-actions">
-            <a href="recettes.php" class="btn-cancel">Annuler</a>
-            <button type="submit" class="btn-submit">Ajouter L'ingredient</button>
+            <a href="tag.php" class="btn-cancel">Annuler</a>
+            <button type="submit" class="btn-submit">Ajouter Le Tag</button>
         </div>
     </form>
 </div>

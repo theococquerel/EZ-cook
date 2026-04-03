@@ -2,7 +2,7 @@
     class Recette{
         private $id;
         private $titre;
-        private $listeIng;
+        private $listeIdIng;
         private $describe;
         private $photo;
         private $tags;

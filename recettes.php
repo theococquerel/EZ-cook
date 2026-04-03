@@ -29,7 +29,7 @@ $recettes=DataBase::chargerRecettes($pdo);?>
         <td><?= htmlspecialchars($r['titre'])?></td>
         <td>
         <a href="recette_modifier.php?id=<?=$r['id']?>">Modifier</a>
-        <a href="recette_supprimer.php?id=<?$r['id']?>">Supprimer</a>
+        <a href="recette_supprimer.php?id=<?=$r['id']?>">Supprimer</a>
         </td>
     </tr>
     <?php endforeach; ?>
