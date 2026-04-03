@@ -107,11 +107,6 @@ class DataBase{
         }
         $id++; // max + 1 > max du tableau pour garder unicité des clés
 
-        foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
-            if($e["id"]==0){
-                return false;
-            }
-        }
         // ATTRIBUTS DE RECETTE
         $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
         $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES (". $id .", '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
