@@ -45,6 +45,9 @@ $ing=DataBase::chargerIngredients($pdo);?>
 </tbody>
 </table>
             </div>
+            
 
-<?php $content=ob_get_clean();
+<?php
+var_dump($_SESSION);
+ $content=ob_get_clean();
 Template::render($content);?>

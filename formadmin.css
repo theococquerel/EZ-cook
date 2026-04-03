@@ -105,6 +105,7 @@
     }
 
     .table-container {
+    max-height: calc(100vh - 200px); /* Hauteur max = hauteur écran - 200px */
     overflow-y: auto; /* Scroll vertical */
     overflow-x: auto; /* Scroll horizontal si besoin */
     margin-top: 120px; /* Espace sous le header fixe */
