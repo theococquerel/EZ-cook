@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once __DIR__ . '/Template.php';
 require_once __DIR__ . '/Database.php';
 
@@ -16,18 +16,33 @@ if (!$idr) {
     exit();
 }
 
-// Récupérer l'ingrédient à modifier
+
 $recettes = DataBase::chargerTable($pdo,"recette");
 $ingredient=DataBase::chargerTable($pdo,"Ingredient");
 $tags=DataBase::chargerTable($pdo,"tag");
-$r = null;
 
+$r = null;
 foreach ($recettes as $tmp) {
     if ($tmp['id'] == $idr) {
-        $r = $tmp;
+        $listeIdIng = json_decode($tmp['listeIdIng'], true) ?? [];
+        $listeTag = json_decode($tmp['listeTag'], true) ?? [];
+        
+        // Créer l'objet Recette
+        $r = new Recette(
+            $tmp['id'],
+            $tmp['titre'],
+            $listeIdIng,
+            $tmp['description'],
+            $tmp['photo'],
+            $listeTag
+        );
         break;
     }
 }
+
+
+$recetteIngredient=$r->getListeIdIng();
+$recetteTag=$r->getListTag();
 
 if (!$r) {
     $_SESSION['error'] = "recette non trouvé";
@@ -43,25 +58,32 @@ ob_start();
     <h2>Modifier la recette</h2>
     
     <form action="recette_modifier_traitement.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="idr" value="<?= $r['id'] ?>">
+        <input type="hidden" name="idr" value="<?= $r->getId() ?>">
         
         <div class="form-group">
             <label for="nom">Nom de la recette *</label>
-            <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($r['titre']) ?>" required>
+            <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($r->getTitre()) ?>" required>
         </div>
-
 
         <div class="form-group">
-            <div class="section-title">Ingrédients *</div>
-            <div class="checkbox-group">
-                <?php foreach ($ingredient as $ing): ?>
-                    <label>
-                        <input type="checkbox" name="ingredients[]" value="<?=$ing['idIng'] ?>">
-                        <?= htmlspecialchars($ing['nomIng']) ?>
-                    </label>
-                <?php endforeach; ?>
-            </div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="5" cols="50"><?= htmlspecialchars($r->getDescribe()) ?></textarea>
         </div>
+
+        <div class="form-group">
+    <div class="section-title">Ingrédients *</div>
+    <div class="checkbox-group">
+        <?php foreach ($ingredient as $ing): ?>
+            <label>
+                <input type="checkbox" 
+                       name="ingredients[]" 
+                       value="<?= $ing['idIng'] ?>"
+                       <?= in_array($ing['idIng'], $recetteIngredient) ? 'checked' : '' ?>>
+                <?= htmlspecialchars($ing['nomIng']) ?>
+            </label>
+        <?php endforeach; ?>
+    </div>
+</div>
         
         <div class="form-group">
             <div class="section-title">Tags (catégories)</div>
@@ -77,10 +99,10 @@ ob_start();
 
         <div class="form-group">
             <label for="photo">Photo de la recette</label>
-            <?php if (!empty($r['photo'])): ?>
+            <?php if (!empty($r->getphoto())): ?>
                 <div class="current-image">
                     <p>Image actuelle :</p>
-                    <img src="<?= htmlspecialchars($r['photo']) ?>" alt="Image actuelle" style="max-width: 200px;">
+                    <img src="<?= htmlspecialchars($r->getphoto()) ?>" alt="Image actuelle" style="max-width: 200px;">
                 </div>
             <?php endif; ?>
             <input type="file" id="photo" name="photo">
