@@ -9,7 +9,7 @@ class DataBase{
         // Informations sur la BDD et le serveur qui la contient
         $db_name = "BddRecettes" ; // Nom de la base de données (pré-existante)
         $db_host = "127.0.0.1" ; // Si le serveur MySQL est sur la machine locale
-        $db_port = "3307" ; //lucien = "3306" et yann et theo = "3307"
+        $db_port = "3306" ; //lucien = "3306" et yann et theo = "3307"
 
         $db_user = "root" ; 
         $db_pwd = "" ;
@@ -36,8 +36,13 @@ class DataBase{
     public static function chargerTable($pdo, $table){
         $sqlAllElt = "SELECT * FROM ". $table;
         $statement = $pdo->prepare($sqlAllElt);
-        $statement->execute() or die(var_dump($statement->errorInfo()));
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        try{
+            $statement->execute() or die(var_dump($statement->errorInfo()));
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(\Exception $ex){
+            die("Erreur: " . $ex->getMessage());
+        }
         return $result;
     }
 

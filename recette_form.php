@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: recette_ajouter.php");
     exit();
 }
-$recettes=DataBase::chargerRecettes($pdo);
+$recettes=DataBase::chargerTable($pdo, "recette");
 $id=0;
 foreach($recettes as $i){
     if ($i["id"]>$id){
