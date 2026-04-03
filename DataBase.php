@@ -55,39 +55,69 @@ class DataBase{
         return $result;
     }
 
-    //public static function ajoutertag()
+    public static function ajoutertag(Tag $tag, $pdo):bool{
+        $verif = "SELECT * FROM tag WHERE nomTag =". $tag->getNom();
+        $sqlRequette = "INSERT INTO tag (nomTag) VALUES (". $tag->getNom .")";
+
+        $statementVerif = $pdo->prepare($verif);
+        $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
+        $statement = $pdo->prepare($sqlRequette);
+
+        try{
+            if(empty($result)){
+                $statement->execute() or die(var_dump($statement->errorInfo()));
+            }
+        }
+        catch(\Exception $ex){
+            die("Erreur ajout Tag : " . $ex->getMessage()) ;
+            return false;
+        }
+        echo "Tag ajouté";
+        return false;
+    }
+
+
     public static function ajouterIng(Ingredient $ing, $pdo):bool{
+        $verif = "SELECT * FROM Ingredient WHERE idIng =" . $ing->getId() . " AND nomIng = ". $ing->getNom();
         $sqlRequette = "INSERT INTO Ingredient (idIng, nomIng,photoIng) VALUES (".$ing->getId().", '".$ing->getNom()."', '".$ing->getImage()."')";
-        echo $sqlRequette . "<br>";
+        $statementVerif = $pdo->prepare($verif);
+        $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
         $statement = $pdo->prepare($sqlRequette);
         try {
-            $statement->execute() or die(var_dump($statement->errorInfo()));
+            if(empty($results)){
+                $statement->execute() or die(var_dump($statement->errorInfo()));
+            }
         } catch (\Exception $ex) {
             // Arrêt de l'exécution du script PHP
-            die("Erreur : " . $ex->getMessage()) ;
+            die("Erreur ajout Ing : " . $ex->getMessage()) ;
             return false;
         }
         echo "Ingredient ajouté !";
         return true;
     }
 
-    public static function ajouterRecette(Recette $rec, $pdo){
+    public static function ajouterRecette(Recette $rec, $pdo):bool{
         $id = $rec->getId();
         $titre = $rec->getTitre();
         $listIng = json_encode($rec->getListeIdIng());
         $describe = $rec->getDescribe();
         $photo = $rec->getPhoto();
         $listTag = json_encode($rec->getListTag());
+        $verif = "SELECT * FROM Ingredient WHERE id =" . $id . " AND titre = ". $titre . " AND listIdIng =". $listIng . " AND description=". $describe . " AND photo=". $photo . " AND listeTag=" . $listTag;
         $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES ('".$id."', '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
-        echo $sqlRequette . "<br> <br>";
+        $statementVerif = $pdo->prepare($verif);
         $statement = $pdo->prepare($sqlRequette);
         try {
-            $statement->execute() or die(var_dump($statement->errorInfo()));
+            if(empty($verif)){
+                $statement->execute() or die(var_dump($statement->errorInfo()));
+            }
         } catch (\Exception $ex) {
             // Arrêt de l'exécution du script PHP
             die("Erreur : " . $ex->getMessage()) ;
+            return false;
         }
         echo "Recette ajoutée !";
+        return true;
     }
 
     //public static function ModifierRecette();

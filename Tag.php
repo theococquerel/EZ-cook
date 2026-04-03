@@ -3,4 +3,8 @@
     public function __construct($nom){
         $this->nom=$nom;
     }
+
+    public function getNom(): String{
+        return $this->nom;
+    }
 } ?>
