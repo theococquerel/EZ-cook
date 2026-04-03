@@ -56,13 +56,14 @@ class DataBase{
     }
 
     public static function ajoutertag(Tag $tag, $pdo):bool{
-        $array = $this->chargerTags($pdo);
+
+        /*$array = DataBase::chargerTags($pdo);
 
         foreach($array as $e){
-            if($e == $tag->getNom()){
+            if($e["nomTag"] == $tag->getNom()){
                 return true;
             }
-        }
+        }*/
 
         $sqlRequette = "INSERT INTO tag (nomTag) VALUES (". $tag->getNom() .")";
 
@@ -82,18 +83,17 @@ class DataBase{
 
     public static function ajouterIng(Ingredient $ing, $pdo):bool{
 
-        $array = $this->chargerIngredients($pdo);
+        /*$array = DataBase::chargerIngredients($pdo);
 
         foreach($array as $e){
-            if($e === $ing->getNom()){
+            if($e["nomIng"] === $ing->getNom()){
                 return true;
             }
-        }
+        }*/
 
         $sqlRequette = "INSERT INTO Ingredient (idIng, nomIng,photoIng) VALUES (".$ing->getId().", '".$ing->getNom()."', '".$ing->getImage()."')";
-        $statementVerif = $pdo->prepare($verif);
-        $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
         $statement = $pdo->prepare($sqlRequette);
+
         try {
             $statement->execute() or die(var_dump($statement->errorInfo()));
         } catch (\Exception $ex) {
@@ -106,6 +106,7 @@ class DataBase{
     }
 
     public static function ajouterRecette(Recette $rec, $pdo):bool{
+        /* gerer les doublons */
         $id = $rec->getId();
         $titre = $rec->getTitre();
         $listIng = json_encode($rec->getListeIdIng());
@@ -130,14 +131,47 @@ class DataBase{
     }
 
     public static function SupprimerIng(Ingredient $ing ,$pdo): bool{
-        $verif = "SELECT * FROM Ingredient WHERE idIng =" . $ing->getId() . " AND nomIng = ". $ing->getNom();
-        $sqlRequette = "DELETE FROM Ingredient WHERE idIng = ". $ing->getId();
+        
+        $array = DataBase::chargerIngredients($pdo);
 
-        $statementVerif = $pdo->prepare($verif);
-        $results = $statementVerif->fetchAll(PDO::FETCH_OBJ) ;
-        $statement = $pdo->prepare($sqlRequette);
+        foreach($array as $e){
+            if($e["nomIng"] === $ing->getNom()){
+                $sqlRequette = "DELETE FROM Ingredient WHERE idIng = ". $ing->getId();
+                $statement = $pdo->prepare($sqlRequette);
+
+                try{
+                    $statement->execute() or die(var_dump($statement->errorInfo()));
+                }catch(\Exception $ex){
+                    die("Erreur supprimer ingrédient : ". $ex->getMessage());
+                    return false;
+                }
+            }
+        }
+        return true;
+
     }
-    //public static function SupprimerTag()
+
+    public static function SupprimerTag(Tag $tag, $pdo): bool{
+        $array = DataBase::chargerTags($pdo);
+
+        foreach($array as $e){
+            if($e["nomTag"] == $tag->getNom()){
+                $sqlRequette = "DELETTE FROM tag WHERE nomTag=". $tag->getNom();
+                $statement = $pdo-> prepare($sqlRequette);
+
+                try{
+                    $statement->execute() or die(var_dump($statement->errorInfo()));
+                }
+                catch(\Exception $ex){
+                    die("Erreur supprimer tag : " . $ex->getMessage());
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
+    }
 
     //public static function SupprimerRecette()
 
