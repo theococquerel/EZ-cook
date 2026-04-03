@@ -46,7 +46,7 @@ class DataBase{
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-
+    //Méthode pour charger tous les TAgs de la BDD
     public static function chargerTags($pdo): array{
         $sqlAlltag = "SELECT * FROM tag" ;
         $statement = $pdo->prepare($sqlAlltag) ;
@@ -109,13 +109,13 @@ class DataBase{
 
         foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
             if(($e["id"] == $rec->getId()) || ( $e["listeIdIng"] == $rec->getListeIdIng() && $e["description"] == $rec->getDescribe() && $e["photo"] == $rec->getPhoto() && $e["listeTag"] == $rec->getListeTag())){
-                return true;
+                return false;
             }
         }
         // ATTRIBUTS DE RECETTE
         $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
 
-        $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES ('".$id."', '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
+        $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES (".$id.", '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
         $statement = $pdo->prepare($sqlRequette);
         try {
             if(empty($verif)){
@@ -201,7 +201,7 @@ class DataBase{
 
         foreach($array as $e){
             if($e["idIng"] == $idIng){
-                $sqlRequette = "UPDATE ingredient SET nomIng =" . $ing->getNom(). ", SET imageIng =" . $ing->getImage() . " WHERE idIng =". $idIng;
+                $sqlRequette = "UPDATE ingredient SET nomIng =" . $ing->getNom() . ", SET imageIng =" . $ing->getImage() . " WHERE idIng =". $idIng;
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{
@@ -215,12 +215,28 @@ class DataBase{
         return true;
     }
 
-    //public static function ModifierTag(Tag $tag, $id, $pdo)
+    // PAS DE MODIFIER TAG CAR IL NY A QU UNE CLE PRIMAIRE DEDANS
 
+    public static function ModifierRecette(Recette $rec, $id, $pdo){
+        $array = DataBase::chargerRecettes($pdo);
 
-    //public static function ModifierRecette();
+        foreach($array as $e){
+            if($e["id"] == $id){
+                $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
+                $sqlRequette = "UPDATE recette SET titre =" . $titre . ", SET listeIdIng=". $listIng . ", SET description =" . $describe . ", SET photo =" . $photo . ", SET listeTag =". $listTag . " WHERE id=" . $id;
+                $statement = $pdo->prepare($sqlRequette);
 
-
-    
+                try{
+                    $statement->execute() or die(var_dump($statement->errorInfo()));
+                    return true;
+                }
+                catch(\Exception $ex){
+                    die("Erreur supprimer recette : " . $ex->getMessage());
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 } 
 ?>
