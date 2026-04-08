@@ -12,8 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: recette_ajouter.php");
     exit();
 }
-$recettes=DataBase::chargerTable($pdo, "recette");
-
+$recettes=DataBase::chargerTable($pdo, "Recette");
+$id=0;
+foreach($recettes as $i){
+    if ($i["id"]>$id){
+        $id=$i["id"];
+    }
+}
+$id++;
 
 // Récupération des données du formulaire
 $titre = trim($_POST['titre'] ?? '');
@@ -22,7 +28,7 @@ $ingredients = $_POST['ingredients'] ?? [];
 $tags = $_POST['tags'] ?? [];
 
 // Gestion de l'upload de l'image
-$photoName = ($_FILES['photo']['name'] ?? '');
+$photoName = $_FILES['photo']['name'];
 // Validation des données
 $errors = [];
 
@@ -44,10 +50,11 @@ if (!empty($errors)) {
 }
 
 // Création de l'objet Recette
-$recette = new Recette(NULL,$titre, $ingredients, $description, $photoName, $tags);
-// Connexion à la BDD et ajout
+$recette = new Recette($id,$titre, $ingredients, $description, $photoName, $tags);
 
+// Connexion à la BDD et ajout
 try {
+    $pdo = DataBase::getConnection();
     $result = DataBase::ajouterRecette($recette, $pdo);
     
     if ($result) {

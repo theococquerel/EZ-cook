@@ -10,7 +10,7 @@ if (!isset($_SESSION['login'])) {
 
 ob_start();
 $pdo=DataBase::getConnection();
-$ing=DataBase::chargerTable($pdo, "ingredient");?>
+$ing=DataBase::chargerTable($pdo, "Ingredient");?>
 <?php if(isset($_SESSION['message'])): ?>
     <div class="success-message"><?= $_SESSION['message'] ?></div>
     <?php unset($_SESSION['message']); ?>
@@ -48,5 +48,6 @@ $ing=DataBase::chargerTable($pdo, "ingredient");?>
             
 
 <?php
+var_dump($_SESSION);
  $content=ob_get_clean();
 Template::render($content);?>

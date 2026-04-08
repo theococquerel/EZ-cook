@@ -1,5 +1,3 @@
-
-
 <?php
 require_once __DIR__ . '/Database.php';
 $id=$_GET["id"];

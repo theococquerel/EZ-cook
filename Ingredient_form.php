@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $pdo = DataBase::getConnection();
-$ingredients=DataBase::charger($pdo,"Ingredient");
+$ingredients=DataBase::chargerTable($pdo,"Ingredient");
 $idIng=0;
 foreach($ingredients as $i){
     if ($i["idIng"]>$idIng){

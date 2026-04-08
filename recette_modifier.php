@@ -1,89 +1,53 @@
 <?php
-
+session_start();
 require_once __DIR__ . '/Template.php';
 require_once __DIR__ . '/Database.php';
 
+// Vérifier si l'utilisateur est admin
 if (!isset($_SESSION['login'])) {
-    header("Location: index.php");
+    header("Location:index.php");
     exit();
 }
 
 $pdo = DataBase::getConnection();
-$idr = $_GET['id'] ?? null;
-
-if (!$idr) {
-    header("Location: recettes.php");
-    exit();
-}
-
-
-$recettes = DataBase::chargerTable($pdo,"recette");
-$ingredient=DataBase::chargerTable($pdo,"Ingredient");
-$tags=DataBase::chargerTable($pdo,"tag");
-
-$r = null;
-foreach ($recettes as $tmp) {
-    if ($tmp['id'] == $idr) {
-        $listeIdIng = json_decode($tmp['listeIdIng'], true) ?? [];
-        $listeTag = json_decode($tmp['listeTag'], true) ?? [];
-        
-        // Créer l'objet Recette
-        $r = new Recette(
-            $tmp['id'],
-            $tmp['titre'],
-            $listeIdIng,
-            $tmp['description'],
-            $tmp['photo'],
-            $listeTag
-        );
-        break;
-    }
-}
-
-
-$recetteIngredient=$r->getListeIdIng();
-$recetteTag=$r->getListTag();
-
-if (!$r) {
-    $_SESSION['error'] = "recette non trouvé";
-    header("Location: recettes.php");
-    exit();
-}
+$ingredients = DataBase::chargerTable($pdo, "Ingredient");
+$tags = DataBase::chargerTable($pdo, "Tag");
 
 ob_start();
 ?>
 
+<link rel="stylesheet" href="formadmin.css">
 
 <div class="form-container">
-    <h2>Modifier la recette</h2>
+    <h2>Modifier une recette</h2>
     
-    <form action="recette_modifier_traitement.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="idr" value="<?= $r->getId() ?>">
+    <form action="recette_form.php" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="titre">Titre de la recette *</label>
+            <input type="text" id="titre" name="titre" required>
+        </div>
         
         <div class="form-group">
-            <label for="nom">Nom de la recette *</label>
-            <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($r->getTitre()) ?>" required>
+            <label for="description">Description *</label>
+            <textarea id="description" name="description" required></textarea>
         </div>
-
+        
         <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="5" cols="50"><?= htmlspecialchars($r->getDescribe()) ?></textarea>
+            <label for="photo">Photo de la recette</label>
+            <input type="file" id="photo" name="photo">
         </div>
-
+        
         <div class="form-group">
-    <div class="section-title">Ingrédients *</div>
-    <div class="checkbox-group">
-        <?php foreach ($ingredient as $ing): ?>
-            <label>
-                <input type="checkbox" 
-                       name="ingredients[]" 
-                       value="<?= $ing['idIng'] ?>"
-                       <?= in_array($ing['idIng'], $recetteIngredient) ? 'checked' : '' ?>>
-                <?= htmlspecialchars($ing['nomIng']) ?>
-            </label>
-        <?php endforeach; ?>
-    </div>
-</div>
+            <div class="section-title">Ingrédients *</div>
+            <div class="checkbox-group">
+                <?php foreach ($ingredients as $ingredient): ?>
+                    <label>
+                        <input type="checkbox" name="ingredients[]" value="<?= htmlspecialchars($ingredient['nomIng']) ?>">
+                        <?= htmlspecialchars($ingredient['nomIng']) ?>
+                    </label>
+                <?php endforeach; ?>
+            </div>
+        </div>
         
         <div class="form-group">
             <div class="section-title">Tags (catégories)</div>
@@ -96,24 +60,14 @@ ob_start();
                 <?php endforeach; ?>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="photo">Photo de la recette</label>
-            <?php if (!empty($r->getphoto())): ?>
-                <div class="current-image">
-                    <p>Image actuelle :</p>
-                    <img src="<?= htmlspecialchars($r->getphoto()) ?>" alt="Image actuelle" style="max-width: 200px;">
-                </div>
-            <?php endif; ?>
-            <input type="file" id="photo" name="photo">
-        </div>
         
         <div class="form-actions">
             <a href="recettes.php" class="btn-cancel">Annuler</a>
-            <button type="submit" class="btn-submit">Modifier l'ingrédient</button>
+            <button type="submit" class="btn-submit">Ajouter la recette</button>
         </div>
     </form>
 </div>
+
 
 <?php
 $content = ob_get_clean();

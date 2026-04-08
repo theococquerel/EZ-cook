@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/Template.php';
 require_once __DIR__ . '/Database.php';
 
@@ -9,8 +10,8 @@ if (!isset($_SESSION['login'])) {
 }
 
 $pdo = DataBase::getConnection();
-$ingredients = DataBase::chargerTable($pdo,"Ingredient");
-$tags = DataBase::chargerTable($pdo,"tag");
+$ingredients = DataBase::chargerTable($pdo, "Ingredient");
+$tags = DataBase::chargerTable($pdo, "Tag");
 
 ob_start();
 ?>

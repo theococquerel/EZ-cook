@@ -36,13 +36,8 @@ class DataBase{
     public static function chargerTable($pdo, $table){
         $sqlAllElt = "SELECT * FROM ". $table;
         $statement = $pdo->prepare($sqlAllElt);
-        try{
-            $statement->execute() or die(var_dump($statement->errorInfo()));
-            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        }
-        catch(\Exception $ex){
-            die("Erreur: " . $ex->getMessage());
-        }
+        $statement->execute() or die(var_dump($statement->errorInfo()));
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
@@ -95,30 +90,23 @@ class DataBase{
         return true;
     }
 
-    public static function ajouterRecette(Recette $rec, $pdo):bool{
-
+    /*public static function ajouterRecette(Recette $rec, $pdo):bool{
         $array = DataBase::chargerTable($pdo, "recette");
 
-        $id=0;
-        foreach($array as $i){ // calcul de l'id max de la bdd
-            if ($i["id"]>$id){
-                $id=$i["id"];
-            }
-        }
-        $id++; // max + 1 > max du tableau pour garder unicité des clés
-
         foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
-            if($e["id"]==0){
+            if(($e["id"] == $rec->getId()) || ( $e["listeIng"] == $rec->getlisteIng() && $e["description"] == $rec->getDescribe() && $e["photo"] == $rec->getPhoto() && $e["listeTag"] == $rec->getListeTag())){
                 return false;
             }
         }
         // ATTRIBUTS DE RECETTE
-        $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
-        $sqlRequette = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag) VALUES (". $id .", '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
-        echo var_dump($sqlRequette);
+        $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getlisteIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
+
+        $sqlRequette = "INSERT INTO Recette (id, titre, listeIng, description, photo, listeTag) VALUES (".$id.", '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
         $statement = $pdo->prepare($sqlRequette);
         try {
-            $statement->execute() or die(var_dump($statement->errorInfo()));
+            if(empty($verif)){
+                $statement->execute() or die(var_dump($statement->errorInfo()));
+            }
         } catch (\Exception $ex) {
             // Arrêt de l'exécution du script PHP
             die("Erreur : " . $ex->getMessage()) ;
@@ -126,7 +114,60 @@ class DataBase{
         }
         echo "Recette ajoutée !";
         return true;
+    }*/
+
+    public static function ajouterRecette(Recette $rec, $pdo): bool {
+
+    $array = DataBase::chargerTable($pdo, "recette");
+
+    foreach($array as $e){
+        if(($e["id"] == $rec->getId()) ||
+           ($e["listeIng"] == json_encode($rec->getListeIdIng())
+            && $e["description"] == $rec->getDescribe()
+            && $e["photo"] == $rec->getPhoto()
+            && $e["listeTag"] == json_encode($rec->getListTag()))){
+            return false;
+        }
     }
+
+    $sql = "SELECT MAX(id) as max_id FROM recette";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // calcul du nouvel id
+    $id = ($result['max_id'] ?? 0) + 1;
+
+
+
+    $titre = $rec->getTitre();
+    $listIng = json_encode($rec->getListeIdIng());
+    $describe = $rec->getDescribe();
+    $photo = $rec->getPhoto();
+    $listTag = json_encode($rec->getListTag());
+
+    //  requête préparée
+    $sql = "INSERT INTO Recette (id, titre, listeIng, description, photo, listeTag)
+            VALUES (:id, :titre, :listeIng, :description, :photo, :listeTag)";
+
+    $stmt = $pdo->prepare($sql);
+
+    try {
+        $stmt->execute([
+            ':id' => $id,
+            ':titre' => $titre,
+            ':listeIng' => $listIng,
+            ':description' => $describe,
+            ':photo' => $photo,
+            ':listeTag' => $listTag
+        ]);
+    } catch (\Exception $ex) {
+        die("Erreur : " . $ex->getMessage());
+        return false;
+    }
+
+    return true;
+}
 
     public static function SupprimerIng($idIng ,$pdo): bool{
         
@@ -199,7 +240,7 @@ class DataBase{
 
         foreach($array as $e){
             if($e["idIng"] == $idIng){
-                $sqlRequette = "UPDATE ingredient SET nomIng ='" . $ing->getNom(). "',photoIng ='". $ing->getImage()."' WHERE idIng =". $idIng;
+                $sqlRequette = "UPDATE ingredient SET nomIng ='" . $ing->getNom() . "', SET imageIng ='" . $ing->getImage() . "' WHERE idIng =". $idIng;
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{
@@ -213,20 +254,22 @@ class DataBase{
         return true;
     }
 
+    // PAS DE MODIFIER TAG CAR IL NY A QU UNE CLE PRIMAIRE DEDANS
+
     public static function ModifierRecette(Recette $rec, $id, $pdo): bool{
         $array = DataBase::chargerTable($pdo, "recette");
-        $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getListeIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
 
         foreach($array as $e){
             if($e["id"] == $id){
-                $sqlRequette = "UPDATE recette SET id =". $id . ", SET titre =". $titre . ", SET listeIng =". $listIng . ", SET description =". $describe . ", SET photo =" . $photo. ", SET listeTag =" . $listTag . " WHERE id=". $id;
+                $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getlisteIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
+                $sqlRequette = "UPDATE recette SET titre =" . $titre . ", SET listeIng=". $listIng . ", SET description =" . $describe . ", SET photo =" . $photo . ", SET listeTag =". $listTag . " WHERE id=" . $id;
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{
-                    statement->execute() or die(var_dump($statement->errorInfo()));
+                    $statement->execute() or die(var_dump($statement->errorInfo()));
                 }
                 catch(\Exception $ex){
-                    die("Erreur modifier recette : " . $ex->getMessage());
+                    die("Erreur supprimer recette : " . $ex->getMessage());
                     return false;
                 }
             }
@@ -235,19 +278,51 @@ class DataBase{
     }
 
     // RECHERCHE SUR LA TABLE DE RECETTE INDEX.PHP
-    public static function recherche($search, $pdo): bool{
+    
+   /* public static function recherche($search, $pdo): array {
 
-        $sqlRequette = "SELECT * FROM recette WHERE titre LIKE '%" . $search . "%'";
-        $statement = $pdo->prepare($sqlRequette);
+    $sql = "SELECT * FROM recette 
+            WHERE LOWER(titre) LIKE LOWER(:search)
+            OR LOWER(description) LIKE LOWER(:search)";
 
-        try{
-            $statement->execute() or die(var_dump($statement->errorInfo()));
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        ':search' => "%" . $search . "%"
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+} */
+
+    public static function recherche($search, $tags, $pdo): array {
+
+        // forcer encodage
+        $pdo->exec("SET NAMES utf8mb4");
+
+        $sql = "SELECT * FROM recette WHERE 1";
+        $params = [];
+
+        // recherche texte (insensible casse + accents)
+        if (!empty($search)) {
+            $sql .= " AND (
+                titre COLLATE utf8mb4_general_ci LIKE :search
+                OR description COLLATE utf8mb4_general_ci LIKE :search
+            )";
+            $params[':search'] = "%" . $search . "%";
         }
-        catch(\Exception $ex){
-            die("Erreur de recherche de Recette : " . $ex->getMessage());
-            return false;
+
+        // 🔍 filtre tags
+        if (!empty($tags)) {
+            foreach ($tags as $i => $tag) {
+                $sql .= " AND listeTag LIKE :tag$i";
+                $params[":tag$i"] = "%" . $tag . "%";
+            }
         }
-        return true;
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-} 
-?>
+}
