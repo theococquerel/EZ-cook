@@ -14,8 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $pdo = DataBase::getConnection();
-$idr = $_POST['id'] ?? null;
+$idr = $_POST['idr'] ?? null;
 $nom = trim($_POST['nom'] ?? '');
+$description = trim($_POST['description'] ?? '');
+$ingredients = $_POST['ingredients'] ?? [];
+$tags = $_POST['tags'] ?? [];
 
 if (!$idr || empty($nom)) {
     $_SESSION['error'] = "Tous les champs sont obligatoires";
@@ -37,17 +40,25 @@ foreach ($recette as $tmp) {
 }
 
 $photoName = $anciennePhoto;
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = 'imagesrecettes/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+    $photoName = $uploadDir . basename($_FILES['photo']['name']);
+    move_uploaded_file($_FILES['photo']['tmp_name'], $photoName);
+}
 
 
 // Créer l'objet Ingredient
-$res = new Recette($idr, $nom, $photoName);
+$res = new Recette($idr, $nom,$ingredients,$description,$photoName,$tags);
 
 // Modifier dans la base de données
 $result = DataBase::ModifierRecette($res, $idr, $pdo);
 
 if ($result) {
     $_SESSION['message'] = "recette '$nom' modifié avec succès !";
-    header("Location: recette.php");
+    header("Location: recettes.php");
     exit();
 } else {
     $_SESSION['error'] = "Erreur lors de la modification de la recette";

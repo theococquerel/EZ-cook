@@ -122,7 +122,7 @@ class DataBase{
 
     foreach($array as $e){
         if(($e["id"] == $rec->getId()) ||
-           ($e["listeIng"] == json_encode($rec->getListeIdIng())
+           ($e["listeIdIng"] == json_encode($rec->getListeIdIng())
             && $e["description"] == $rec->getDescribe()
             && $e["photo"] == $rec->getPhoto()
             && $e["listeTag"] == json_encode($rec->getListTag()))){
@@ -147,8 +147,8 @@ class DataBase{
     $listTag = json_encode($rec->getListTag());
 
     //  requête préparée
-    $sql = "INSERT INTO Recette (id, titre, listeIng, description, photo, listeTag)
-            VALUES (:id, :titre, :listeIng, :description, :photo, :listeTag)";
+    $sql = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag)
+            VALUES (:id, :titre, :listeIdIng, :description, :photo, :listeTag)";
 
     $stmt = $pdo->prepare($sql);
 
@@ -156,7 +156,7 @@ class DataBase{
         $stmt->execute([
             ':id' => $id,
             ':titre' => $titre,
-            ':listeIng' => $listIng,
+            ':listeIdIng' => $listIng,
             ':description' => $describe,
             ':photo' => $photo,
             ':listeTag' => $listTag
@@ -240,7 +240,7 @@ class DataBase{
 
         foreach($array as $e){
             if($e["idIng"] == $idIng){
-                $sqlRequette = "UPDATE ingredient SET nomIng ='" . $ing->getNom() . "', SET imageIng ='" . $ing->getImage() . "' WHERE idIng =". $idIng;
+                $sqlRequette = "UPDATE ingredient SET nomIng ='" . $ing->getNom() . "', photoIng ='" . $ing->getImage() . "' WHERE idIng =". $idIng;
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{
@@ -262,7 +262,7 @@ class DataBase{
         foreach($array as $e){
             if($e["id"] == $id){
                 $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getlisteIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
-                $sqlRequette = "UPDATE recette SET titre =" . $titre . ", SET listeIng=". $listIng . ", SET description =" . $describe . ", SET photo =" . $photo . ", SET listeTag =". $listTag . " WHERE id=" . $id;
+                $sqlRequette = "UPDATE recette SET titre = '$titre', listeIdIng = '$listIng', description = '$describe', photo = '$photo', listeTag = '$listTag' WHERE id = $id";                
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{

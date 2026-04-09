@@ -28,7 +28,15 @@ $ingredients = $_POST['ingredients'] ?? [];
 $tags = $_POST['tags'] ?? [];
 
 // Gestion de l'upload de l'image
-$photoName = $_FILES['photo']['name'];
+$photoName = '';
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = 'imagesrecettes/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+    $photoName = $uploadDir . basename($_FILES['photo']['name']);
+    move_uploaded_file($_FILES['photo']['tmp_name'], $photoName);
+}
 // Validation des données
 $errors = [];
 

@@ -25,8 +25,21 @@ $idIng++;
 
 // Récupération des données du formulaire
 $titre = trim($_POST['titre'] ?? '');
-$photoName = $_FILES['photo']['name'];
-$errors = [];
+$photoName = '';
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    // Le dossier existe déjà, on l'utilise directement
+    $uploadDir = 'imagesingredient/';
+    
+    // Garder le nom d'origine du fichier
+    $photoName = $uploadDir . basename($_FILES['photo']['name']);
+    
+    // Déplacer le fichier uploadé vers le dossier imagesingredient/
+    if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photoName)) {
+        $_SESSION['error'] = "Erreur lors de l'upload de l'image.";
+        header("Location: ingredient_ajouter.php");
+        exit();
+    }
+}
 
 $Ing = new Ingredient($idIng,$titre,$photoName);
 
