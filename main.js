@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 })
             }
 
-                // gestion de la barre (version JS)
+                // gestion de la barre
             function research(){
 
                 let valeur = document.getElementById("research").value.trim();
@@ -194,23 +194,5 @@ document.addEventListener('DOMContentLoaded', function(){
                 })
                 .catch(error => console.error("Erreur tags :", error));
             }      
-                /*document.querySelectorAll(".tag-btn").forEach(btn => {
-                            // quand on coche un tag en cliquant dessus
-                            btn.addEventListener('click', function(){
-                                let tag = this.dataset.tag;
-
-                                // ajout/suppression
-                                if(selectedTags.includes(tag)){
-                                    selectedTags = selectedTags.filter(t => t !== tag);
-                                    this.style.background = "";
-                                } else {
-                                    selectedTags.push(tag);
-                                    this.style.background = "yellow";
-                                
-                                }
-                                research();
-                            })    
-
-                        })*/
                     
         })

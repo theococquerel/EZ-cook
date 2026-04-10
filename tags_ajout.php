@@ -20,7 +20,7 @@ ob_start();
     <form action="tag_form.php" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="nomIng">Nom du tag*</label>
-            <input type="text" id="titre" name="titre" required >
+            <input type="text" id="titre" name="titre" required>
         </div>        
         <div class="form-actions">
             <a href="tag.php" class="btn-cancel">Annuler</a>

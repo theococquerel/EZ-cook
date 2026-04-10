@@ -8,7 +8,7 @@
         private $tags;
 
         public function __construct($id ,$titre, array $listeIdIng, $describe, $photo, array $tags){
-            $this->id = $id;
+            $this->$id = $id;
             $this->titre=$titre;
             $this->listeIdIng=$listeIdIng;
             $this->describe=$describe;

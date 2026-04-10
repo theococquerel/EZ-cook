@@ -1,14 +1,8 @@
 <?php
 require_once __DIR__ . '/Database.php';
-$id = $_GET["id"] ?? null;
-if (!$id) {
-    header("Location: recettes.php");
-    exit();
-}
-
+$id=$_GET["id"];
 $pdo =DataBase::getConnection();
 $result =Database::SupprimerRecette($id,$pdo);
-
 
 if ($result){
     header("Location:recettes.php");

@@ -24,6 +24,10 @@ foreach($ingredients as $i){
 $idIng++;
 
 // Récupération des données du formulaire
+/*$titre = trim($_POST['titre'] ?? '');
+$photoName = $_FILES['photo']['name'];
+$errors = [];*/
+
 $titre = trim($_POST['titre'] ?? '');
 $photoName = '';
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
@@ -40,6 +44,9 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
         exit();
     }
 }
+
+
+
 
 $Ing = new Ingredient($idIng,$titre,$photoName);
 

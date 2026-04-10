@@ -32,7 +32,7 @@ class DataBase{
     }
 
     // Methode pour charger tout les element d'une table quelconque
-    // $table = {"Ingredient", "Recette", "tag"}
+    
     public static function chargerTable($pdo, $table){
         $sqlAllElt = "SELECT * FROM ". $table;
         $statement = $pdo->prepare($sqlAllElt);
@@ -90,31 +90,6 @@ class DataBase{
         return true;
     }
 
-    /*public static function ajouterRecette(Recette $rec, $pdo):bool{
-        $array = DataBase::chargerTable($pdo, "recette");
-
-        foreach($array as $e){ // si l'id sont les meme OU tout les attributs sont les memes sauf id et titres
-            if(($e["id"] == $rec->getId()) || ( $e["listeIng"] == $rec->getlisteIng() && $e["description"] == $rec->getDescribe() && $e["photo"] == $rec->getPhoto() && $e["listeTag"] == $rec->getListeTag())){
-                return false;
-            }
-        }
-        // ATTRIBUTS DE RECETTE
-        $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getlisteIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
-
-        $sqlRequette = "INSERT INTO Recette (id, titre, listeIng, description, photo, listeTag) VALUES (".$id.", '".$titre."', '".$listIng."', '".$describe."', '".$photo."', '".$listTag."')";
-        $statement = $pdo->prepare($sqlRequette);
-        try {
-            if(empty($verif)){
-                $statement->execute() or die(var_dump($statement->errorInfo()));
-            }
-        } catch (\Exception $ex) {
-            // Arrêt de l'exécution du script PHP
-            die("Erreur : " . $ex->getMessage()) ;
-            return false;
-        }
-        echo "Recette ajoutée !";
-        return true;
-    }*/
 
     public static function ajouterRecette(Recette $rec, $pdo): bool {
 
@@ -122,7 +97,7 @@ class DataBase{
 
     foreach($array as $e){
         if(($e["id"] == $rec->getId()) ||
-           ($e["listeIdIng"] == json_encode($rec->getListeIdIng())
+           ($e["listeIng"] == json_encode($rec->getListeIdIng())
             && $e["description"] == $rec->getDescribe()
             && $e["photo"] == $rec->getPhoto()
             && $e["listeTag"] == json_encode($rec->getListTag()))){
@@ -147,8 +122,8 @@ class DataBase{
     $listTag = json_encode($rec->getListTag());
 
     //  requête préparée
-    $sql = "INSERT INTO Recette (id, titre, listeIdIng, description, photo, listeTag)
-            VALUES (:id, :titre, :listeIdIng, :description, :photo, :listeTag)";
+    $sql = "INSERT INTO Recette (id, titre, listeIng, description, photo, listeTag)
+            VALUES (:id, :titre, :listeIng, :description, :photo, :listeTag)";
 
     $stmt = $pdo->prepare($sql);
 
@@ -156,7 +131,7 @@ class DataBase{
         $stmt->execute([
             ':id' => $id,
             ':titre' => $titre,
-            ':listeIdIng' => $listIng,
+            ':listeIng' => $listIng,
             ':description' => $describe,
             ':photo' => $photo,
             ':listeTag' => $listTag
@@ -240,7 +215,7 @@ class DataBase{
 
         foreach($array as $e){
             if($e["idIng"] == $idIng){
-                $sqlRequette = "UPDATE ingredient SET nomIng ='" . $ing->getNom() . "', photoIng ='" . $ing->getImage() . "' WHERE idIng =". $idIng;
+                $sqlRequette = "UPDATE ingredient SET nomIng ='" . $ing->getNom() . "', SET imageIng ='" . $ing->getImage() . "' WHERE idIng =". $idIng;
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{
@@ -262,7 +237,7 @@ class DataBase{
         foreach($array as $e){
             if($e["id"] == $id){
                 $id = $rec->getId(); $titre = $rec->getTitre(); $listIng = json_encode($rec->getlisteIdIng()); $describe = $rec->getDescribe(); $photo = $rec->getPhoto(); $listTag = json_encode($rec->getListTag());
-                $sqlRequette = "UPDATE recette SET titre = '$titre', listeIdIng = '$listIng', description = '$describe', photo = '$photo', listeTag = '$listTag' WHERE id = $id";                
+                $sqlRequette = "UPDATE recette SET titre =" . $titre . ", SET listeIng=". $listIng . ", SET description =" . $describe . ", SET photo =" . $photo . ", SET listeTag =". $listTag . " WHERE id=" . $id;
                 $statement = $pdo->prepare($sqlRequette);
 
                 try{
@@ -278,22 +253,6 @@ class DataBase{
     }
 
     // RECHERCHE SUR LA TABLE DE RECETTE INDEX.PHP
-    
-   /* public static function recherche($search, $pdo): array {
-
-    $sql = "SELECT * FROM recette 
-            WHERE LOWER(titre) LIKE LOWER(:search)
-            OR LOWER(description) LIKE LOWER(:search)";
-
-    $stmt = $pdo->prepare($sql);
-
-    $stmt->execute([
-        ':search' => "%" . $search . "%"
-    ]);
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-} */
 
     public static function recherche($search, $tags, $pdo): array {
 
@@ -302,17 +261,18 @@ class DataBase{
 
         $sql = "SELECT * FROM recette WHERE 1";
         $params = [];
-
+        
         // recherche texte (insensible casse + accents)
         if (!empty($search)) {
             $sql .= " AND (
-                titre COLLATE utf8mb4_general_ci LIKE :search
-                OR description COLLATE utf8mb4_general_ci LIKE :search
+                LOWER(titre) LIKE :search
+                OR LOWER(description) LIKE :search
+                OR LOWER(listeIng) LIKE :search
             )";
-            $params[':search'] = "%" . $search . "%";
+            $params[':search'] = "%" . strtolower($search) . "%";
         }
 
-        // 🔍 filtre tags
+        // filtre tags
         if (!empty($tags)) {
             foreach ($tags as $i => $tag) {
                 $sql .= " AND listeTag LIKE :tag$i";

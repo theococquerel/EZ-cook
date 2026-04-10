@@ -24,11 +24,12 @@ $Tag = new Tag($titre);
 $result = DataBase::ajoutertag($Tag,$pdo);
     
     if ($result) {
+        $_SESSION['message'] = "Tag \"" . $Tag->getNom() . "\" ajoutée avec succès !";
         header("Location:tags.php");
         exit();
     } else {
         $_SESSION['error'] = "Erreur lors de l'ajout de l'ingredient.";
-        header("Location:tags.php");
+        header("Location:tag_ajout.php");
         exit();
     }
 ?>

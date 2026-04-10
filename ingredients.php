@@ -48,5 +48,6 @@ $ing=DataBase::chargerTable($pdo, "Ingredient");?>
             
 
 <?php
+//var_dump($_SESSION);
  $content=ob_get_clean();
 Template::render($content);?>

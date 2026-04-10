@@ -10,9 +10,9 @@ if (!isset($_SESSION['login'])) {
 
 ob_start();
 $pdo=DataBase::getConnection();
-$tags=DataBase::chargerTable($pdo,"tag");?>
+$tags=DataBase::chargerTable($pdo, "tag");?>
 <div class="table-container">
-<h2>Gestion des Tag</h2>
+<h2>Gestion des tags</h2>
 <a href="tags_ajout.php">Ajouter un tag</a>
 <table border="1" cellpadding="10">
     <thead>   
@@ -26,6 +26,7 @@ $tags=DataBase::chargerTable($pdo,"tag");?>
     <tr>
         <td><?= htmlspecialchars($t['nomTag'])?></td>
         <td>
+        <a href="tags_modifier.php?id=<?=$t['nomTag']?>">Modifier</a>
         <a href="tag_supprimer.php?id=<?=$t['nomTag']?>">Supprimer</a>
         </td>
     </tr>

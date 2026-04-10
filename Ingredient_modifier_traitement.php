@@ -47,7 +47,6 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 }
 
 
-
 // Créer l'objet Ingredient
 $ingredient = new Ingredient($idIng, $nom, $photoName);
 
